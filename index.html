@@ -28,9 +28,9 @@
                 <h2 class="text-left">Efficient Video Inference with Spatiotemporal Knowledge</h2>
                 <h4 class="text-color">Chanwut (Mick) Kittivorawong</h4>
                 <div class="flex justify-between w-2/5 h-[35pt]">
-                    <img src="assets/logo-berkeley.svg" class="h-full m-0!" />
-                    <img src="assets/logo-sky.png" class="h-full m-0! mr-2!" />
-                    <img src="assets/logo-dsf.svg" class="h-full m-0!" />
+                    <img src="assets/logo-berkeley.svg" class="h-full !m-0" />
+                    <img src="assets/logo-sky.png" class="h-full !m-0 !mr-2" />
+                    <img src="assets/logo-dsf.svg" class="h-full !m-0" />
                 </div>
             </section>
             <section>
@@ -68,21 +68,41 @@
             </section>
             <section>
                 <h3>Motivation</h3>
-                <p style="font-size: smaller">Video data is abundant, and its volume keeps increasing.</p>
-                <div
-                    style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%">
-                    <div style="display: flex; justify-content: center; width: 70%; flex-direction: column;">
-                        <img src="assets/youtube-upload.svg" style="padding: 0; margin: 0" />
-                    </div>
+                <h4>Video data is abundant, and its volume keeps increasing.</h4>
+                <div class="flex justify-center w-[100%]">
+                    <img src="assets/youtube-upload.svg" style="padding: 0; margin: 0" />
                 </div>
+                <div class="absolute left-0 bottom-0 text-[8.5pt] color-gray">Hours of video uploaded to YouTube every
+                    minute as of February 2022 [Graph], YouTube, & Google, June 22, 2022. [Online]. Available:
+                    https://www.statista.com/statistics/259477/hours-of-video-uploaded-to-youtube-every-minute</div>
             </section>
             <section>
                 <h3>Motivation</h3>
-                <p style="font-size: smaller">Many more sources of video data...</p>
-            </section>
-            <section>
-                <h3>Motivation</h3>
-                example tasks?
+                <columns>
+                    <column-2>
+                        <p>Many more sources of video data.</p>
+                        <img src="assets/data-nuscenes.svg" style="background-color: black" class="b-rd-4px p-12px !mb-4 w-500px fragment"/>
+                        <img src="assets/data-i24.png" style="background-color: black" class="b-rd-4px p-12px !mb-4 w-500px fragment"/>
+                        <img src="assets/data-bdd.png" style="background-color: black" class="b-rd-4px p-12px !mb-4 w-500px fragment"/>
+                    </column-2>
+                    <column-2>
+                        <p>With multiple use cases.</p>
+                        <div>
+                            <div class="fragment">
+                                <img src="assets/data-ex-nuscenes.gif" style="background-color: black" class="b-rd-4px w-500px !pb-0 !mb-0"/>
+                                <p class="text-xl p-0 m-0">Finding for cars at an intersection.</p>
+                            </div>
+                            <div class="fragment">
+                                <img src="assets/data-ex-jackson.gif" style="background-color: black" class="b-rd-4px w-500px !pb-0 !mb-0"/>
+                                <p class="text-xl p-0 m-0">Aggregate vehicle statistics on traffic intersections.</p>
+                            </div>
+                            <div class="fragment">
+                                <img src="assets/data-ex-b3d.gif" style="background-color: black" class="b-rd-4px w-500px !pb-0 !mb-0"/>
+                                <p class="text-xl p-0 m-0">Building a statistical model on vehicles coordination.</p>
+                            </div>
+                        </div>
+                    </column-2>
+                </columns>
             </section>
             <section>
                 <h3>Motivation</h3>
@@ -157,17 +177,9 @@
     <script src="plugin/markdown/markdown.js"></script>
     <script src="plugin/highlight/highlight.js"></script>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.4.1/plugin/mermaid/mermaid.js"></script> -->
     <script>
         Reveal.initialize({
             hash: true,
-            // mermaid: { flowchart: { curve: 'linear', }, },
-            // mermaidPlugin: {
-            //     afterRender(el) {
-            //         ['svg', 'marker', 'path', '.nodes g']
-            //             .forEach(tag => el.querySelectorAll(tag).forEach(elm => elm.setAttribute('data-auto-animate-id', elm.id)));
-            //     }
-            // },
 
             transition: 'none',
             slideNumber: 'c',
@@ -178,15 +190,16 @@
             height: 9 * 85,
 
             plugins: [
-                RevealMarkdown, RevealHighlight, RevealNotes,
-                // RevealMermaid,
+                RevealMarkdown,
+                RevealHighlight,
+                RevealNotes,
             ],
         })
     </script>
-    <img src="assets/corner.svg" class="corner  !-left-7    !-top-7" />
+    <!-- <img src="assets/corner.svg" class="corner  !-left-7    !-top-7" />
     <img src="assets/corner.svg" class="corner !-right-7    !-top-7 rotate-90" />
     <img src="assets/corner.svg" class="corner !-right-7 !-bottom-7 rotate-180" />
-    <img src="assets/corner.svg" class="corner  !-left-7 !-bottom-7 rotate-270" />
+    <img src="assets/corner.svg" class="corner  !-left-7 !-bottom-7 rotate-270" /> -->
 </body>
 
 </html>
