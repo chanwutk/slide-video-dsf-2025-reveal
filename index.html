@@ -2,150 +2,191 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>Efficient Video Inference with Spatiotemporal Knowledge -- Chanwut (Mick) Kittivorawong</title>
+    <title>Efficient Video Inference with Spatiotemporal Knowledge -- Chanwut (Mick) Kittivorawong</title>
 
-	<link rel="stylesheet" href="dist/reset.css">
-	<link rel="stylesheet" href="dist/reveal.css">
-	<link rel="stylesheet" href="dist/theme/white.css">
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black-on-white.css">
 
-	<!-- Theme used for syntax highlighted code -->
-	<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	<style>
-		:root {
-			--header-text-color: darkblue;
-		}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        type="text/css" ?>
 
-		section:not(.vcenter) {
-			height: 100%;
-		}
+    <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 
-		.text-color {
-			color: var(--header-text-color);
-		}
-
-		h4.text-color {
-			color: var(--header-text-color);
-		}
-	</style>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
 </head>
 
 <body>
-	<div class="reveal">
-		<div class="slides">
-			<section class="vcenter">
-				<div style="display: flex; flex-direction: column; justify-content: center; align-items: start;">
-					<h3 style="text-align: left; line-height: 90%;">Efficient Video Inference with Spatiotemporal
-						Knowledge</h3>
-					<h4 class="text-color">Chanwut (Mick) Kittivorawong</h4>
-					<div style="display: flex; justify-content: space-between; width: 45%; height: 35pt;">
-						<img src="dist/assets/logo-berkeley.svg" height="100%" style="margin: 0" />
-						<img src="dist/assets/logo-sky.png" height="100%" style="margin: 0" />
-						<img src="dist/assets/logo-dsf.svg" height="100%" style="margin: 0" />
-					</div>
-				</div>
-			</section>
-			<section class="vcenter">
-				<h2>Overview</h2>
-				<ol>
-					<li>Motivation
-						<div class="text-color" style="font-size: large">Problem with video processing.</div>
-					</li>
-					<li>Background + Prior Work
-						<div class="text-color" style="font-size: large">Basic video processing tasks.</div>
-						<div class="text-color" style="font-size: large">Directions in video processing optimization.
-						</div>
-					</li>
-					<li>Spatialyze
-						<div class="text-color" style="font-size: large">My existing work on video processing
-							optimization.</div>
-					</li>
-					<li data-id="m4">Ongoing Research
-						<div class="text-color" style="font-size: large">What to improve upon my existing work?</div>
-					</li>
-				</ol>
-			</section>
-			<section>
-				<h3>Motivation</h3>
-				<p style="font-size: smaller">Video data is abundant, and its volume keeps increasing.</p>
-				<div
-					style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%">
-					<div style="display: flex; justify-content: center; width: 70%; flex-direction: column;">
+    <div class="reveal">
+        <div class="slides">
+            <section class="vcenter">
+                <h2 class="text-left">Efficient Video Inference with Spatiotemporal Knowledge</h2>
+                <h4 class="text-color">Chanwut (Mick) Kittivorawong</h4>
+                <div class="flex justify-between w-2/5 h-[35pt]">
+                    <img src="assets/logo-berkeley.svg" class="h-full m-0!" />
+                    <img src="assets/logo-sky.png" class="h-full m-0! mr-2!" />
+                    <img src="assets/logo-dsf.svg" class="h-full m-0!" />
+                </div>
+            </section>
+            <section>
+                <h2>Overview</h2>
+                <br />
+                <br />
+                <columns>
+                    <div>
+                        <div class="fragment custom fade">
+                            <h3 class="line-height-1">Motivation</h3>
+                            <div class="text-color text-3xl">Problem with video processing.
+                                <br />
+                                &nbsp;
+                            </div>
+                        </div>
+                        <br />
+                        <div class="fragment custom fade">
+                            <h3>Background + Prior Work</h3>
+                            <div class="text-color text-3xl">Basic video processing tasks.</div>
+                            <div class="text-color text-3xl">Directions in video processing optimization.</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="fragment custom fade">
+                            <h3>Spatialyze</h3>
+                            <div class="text-color text-3xl">My existing work on video processing optimization.</div>
+                        </div>
+                        <br />
+                        <div class="fragment custom fade">
+                            <h3>Ongoing Research</h3>
+                            <div class="text-color text-3xl">What to improve upon my existing work?</div>
+                        </div>
+                    </div>
+                </columns>
+            </section>
+            <section>
+                <h3>Motivation</h3>
+                <p style="font-size: smaller">Video data is abundant, and its volume keeps increasing.</p>
+                <div
+                    style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%">
+                    <div style="display: flex; justify-content: center; width: 70%; flex-direction: column;">
+                        <img src="assets/youtube-upload.svg" style="padding: 0; margin: 0" />
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h3>Motivation</h3>
+                <p style="font-size: smaller">Many more sources of video data...</p>
+            </section>
+            <section>
+                <h3>Motivation</h3>
+                example tasks?
+            </section>
+            <section>
+                <h3>Motivation</h3>
+                <div>
+                    <div>Meanwhile ML models to process them are still slow.</div>
+                    <div class="column">
+                        <div>
+                            <table>
+                                <tr>
+                                    <th>Object Detector</th>
+                                    <th>FPS</th>
+                                </tr>
+                                <tr>
+                                    <td>Mask-RCNN</td>
+                                    <td>4.3</td>
+                                </tr>
+                                <tr>
+                                    <td>EfficientDet</td>
+                                    <td>14.3</td>
+                                </tr>
+                                <tr>
+                                    <td>YOLO</td>
+                                    <td>90.1</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="fragment">
+                            <table>
+                                <tr>
+                                    <th>Object Tracker</th>
+                                    <th>FPS</th>
+                                </tr>
+                                <tr>
+                                    <td>StrongSORT</td>
+                                    <td>1.5</td>
+                                </tr>
+                                <tr>
+                                    <td>DeepSORT</td>
+                                    <td>3.2</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h3>Motivation</h3>
+                <div>
+                    <div>Meanwhile ML models to process them are still slow.</div>
+                    <p>Faster Hardwares are not always available</p>
+                    <p>Inventing new and more efficient ML models is to specific to tasks</p>
+                    <p>We need</p>
+                </div>
+            </section>
+            <section class="vcenter">
+                <p>Boarder Research Question</p>
+                <h2>How do we algorithmically make ML-Based video processing faster?</h2>
+            </section>
+            <section>
+                <h3>Background</h3>
+                <h4>Video Processing Tasks.</h4>
+            </section>
+            <section>
+                <h2>Prior Work</h2>
+                <h4>Query-sp ecific Optimization</h4>
+            </section>
+        </div>
+    </div>
 
-						<img src="dist/assets/youtube-upload.svg" style="padding: 0; margin: 0" />
-						<p style="font-size:xx-small;">
-							<span style="font-size:small"><strong>Reference</strong></span -->
-							<br />
-							<span style="font-size:small">Hours of video uploaded to YouTube every minute as of
-								February 2022 [Graph], YouTube, & Google, June 22, 2022. [Online]. Available:
-								https://www.statista.com/statistics/259477/hours-of-video-uploaded-to-youtube-every-minute</span>
-						</p>
-					</div>
-				</div>
-			</section>
-			<section>
-				<h3>Motivation</h3>
-				<p style="font-size: smaller">Many more sources of video data...</p>
-			</section>
-			<section>
-				<h3>Motivation</h3>
-				<div>
-					<div>Meanwhile ML models to process them are still slow.</div>
-					<div>
-						<table>
-							<tr>
-								<th>Object Detector</th>
-								<th>FPS</th>
-							</tr>
-							<tr>
-								<td>Mask-RCNN</td>
-								<td>4.3</td>
-							</tr>
-							<tr>
-								<td>EfficientDet</td>
-								<td>14.3</td>
-							</tr>
-							<tr>
-								<td>YOLO</td>
-								<td>90.1</td>
-							</tr>
-						</table>
-					</div>
-					<div class="fragment">2</div>
-				</div>
-			</section>
-			<section>
-				<h3>Motivation</h3>
-				<div>
-					<div></div>
-					<div>Meanwhile ML models to process them are still slow.</div>
-				</div>
-				<h3>How do we algorithmically make ML-Based video processing faster?</h3>
-			</section>
-		</div>
-	</div>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
 
-	<script src="dist/reveal.js"></script>
-	<script src="plugin/notes/notes.js"></script>
-	<script src="plugin/markdown/markdown.js"></script>
-	<script src="plugin/highlight/highlight.js"></script>
-	<script>
-		// More info about initialization & config:
-		// - https://revealjs.com/initialization/
-		// - https://revealjs.com/config/
-		Reveal.initialize({
-			hash: true,
+    <!-- <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.4.1/plugin/mermaid/mermaid.js"></script> -->
+    <script>
+        Reveal.initialize({
+            hash: true,
+            // mermaid: { flowchart: { curve: 'linear', }, },
+            // mermaidPlugin: {
+            //     afterRender(el) {
+            //         ['svg', 'marker', 'path', '.nodes g']
+            //             .forEach(tag => el.querySelectorAll(tag).forEach(elm => elm.setAttribute('data-auto-animate-id', elm.id)));
+            //     }
+            // },
 
-			// Learn about plugins: https://revealjs.com/plugins/
-			plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+            transition: 'none',
+            slideNumber: 'c',
+            controls: false,
+            progress: false,
 
-			transition: 'none',
-			slideNumber: 'c/t',
-			controls: false,
-		});
-	</script>
+            width: 16 * 85,
+            height: 9 * 85,
+
+            plugins: [
+                RevealMarkdown, RevealHighlight, RevealNotes,
+                // RevealMermaid,
+            ],
+        })
+    </script>
+    <img src="assets/corner.svg" class="corner  !-left-7    !-top-7" />
+    <img src="assets/corner.svg" class="corner !-right-7    !-top-7 rotate-90" />
+    <img src="assets/corner.svg" class="corner !-right-7 !-bottom-7 rotate-180" />
+    <img src="assets/corner.svg" class="corner  !-left-7 !-bottom-7 rotate-270" />
 </body>
 
 </html>

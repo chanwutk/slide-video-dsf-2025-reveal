@@ -1,0 +1,97 @@
+:root {
+    --header-text-color: #002676;
+}
+
+.slides {
+    display: flex !important;
+    justify-content: center;
+}
+
+.slide-number {
+    background-color: transparent !important;
+}
+
+.slide-number-a {
+    color: var(--header-text-color);
+    opacity: 0.5;
+}
+
+section {
+    width: 94% !important;
+}
+
+section:not(.vcenter) {
+    height: 94% !important;
+    max-height: 94% !important;
+}
+
+section:not(.hcenter) {
+    text-align: left;
+}
+
+.text-color {
+    color: var(--header-text-color);
+}
+
+h4.text-color {
+    color: var(--header-text-color);
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    margin-bottom: 10pt !important;
+    letter-spacing: -.03em !important;
+}
+
+.column {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    position: absolute;
+    bottom: 0;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+}
+
+.fill {
+    flex: 1;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.fragment.fade {
+    opacity: 0.1;
+}
+
+.fragment.fade.visible {
+    opacity: 1;
+}
+
+.corner {
+    position: absolute !important;
+    height: calc(21rem / 4) !important;
+    z-index: 99999 !important;
+    margin: 0 !important;
+}
