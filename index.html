@@ -27,11 +27,16 @@
             <section class="vcenter">
                 <h2 class="text-left">Efficient Video Inference with Spatiotemporal Knowledge</h2>
                 <h4 class="text-color">Chanwut (Mick) Kittivorawong</h4>
-                <div class="flex justify-between w-2/5 h-[35pt]">
+                <div class="flex justify-between w-2/5 h-35pt">
                     <img src="assets/logo-berkeley.svg" class="h-full !m-0" />
                     <img src="assets/logo-sky.png" class="h-full !m-0 !mr-2" />
                     <img src="assets/logo-dsf.svg" class="h-full !m-0" />
                 </div>
+                <aside class="notes">
+                    Hi everyone
+
+                    My name is Mick. I am a 3rd-year Ph.D. student advised by Professor Alvin Cheung.
+                </aside>
             </section>
             <section>
                 <h2>Overview</h2>
@@ -81,23 +86,29 @@
                 <columns>
                     <column-2>
                         <p>Many more sources of video data.</p>
-                        <img src="assets/data-nuscenes.svg" style="background-color: black" class="b-rd-4px p-12px !mb-4 w-500px fragment"/>
-                        <img src="assets/data-i24.png" style="background-color: black" class="b-rd-4px p-12px !mb-4 w-500px fragment"/>
-                        <img src="assets/data-bdd.png" style="background-color: black" class="b-rd-4px p-12px !mb-4 w-500px fragment"/>
+                        <img src="assets/data-nuscenes.svg" style="background-color: black"
+                            class="b-rd-4px p-12px !mb-4 w-500px" />
+                        <img src="assets/data-i24.png" style="background-color: black"
+                            class="b-rd-4px p-12px !mb-4 w-500px" />
+                        <img src="assets/data-bdd.png" style="background-color: black"
+                            class="b-rd-4px p-12px !mb-4 w-500px" />
                     </column-2>
                     <column-2>
-                        <p>With multiple use cases.</p>
+                        <p class="fragment">With multiple use cases.</p>
                         <div>
                             <div class="fragment">
-                                <img src="assets/data-ex-nuscenes.gif" style="background-color: black" class="b-rd-4px w-500px !pb-0 !mb-0"/>
+                                <img src="assets/data-ex-nuscenes.gif" style="background-color: black"
+                                    class="b-rd-4px w-500px !pb-0 !mb-0" />
                                 <p class="text-xl p-0 m-0">Finding for cars at an intersection.</p>
                             </div>
                             <div class="fragment">
-                                <img src="assets/data-ex-jackson.gif" style="background-color: black" class="b-rd-4px w-500px !pb-0 !mb-0"/>
+                                <img src="assets/data-ex-jackson.gif" style="background-color: black"
+                                    class="b-rd-4px w-500px !pb-0 !mb-0" />
                                 <p class="text-xl p-0 m-0">Aggregate vehicle statistics on traffic intersections.</p>
                             </div>
                             <div class="fragment">
-                                <img src="assets/data-ex-b3d.gif" style="background-color: black" class="b-rd-4px w-500px !pb-0 !mb-0"/>
+                                <img src="assets/data-ex-b3d.gif" style="background-color: black"
+                                    class="b-rd-4px w-500px !pb-0 !mb-0" />
                                 <p class="text-xl p-0 m-0">Building a statistical model on vehicles coordination.</p>
                             </div>
                         </div>
@@ -105,51 +116,27 @@
                 </columns>
             </section>
             <section>
-                <h3>Motivation</h3>
-                <div>
-                    <div>Meanwhile ML models to process them are still slow.</div>
-                    <div class="column">
-                        <div>
-                            <table>
-                                <tr>
-                                    <th>Object Detector</th>
-                                    <th>FPS</th>
-                                </tr>
-                                <tr>
-                                    <td>Mask-RCNN</td>
-                                    <td>4.3</td>
-                                </tr>
-                                <tr>
-                                    <td>EfficientDet</td>
-                                    <td>14.3</td>
-                                </tr>
-                                <tr>
-                                    <td>YOLO</td>
-                                    <td>90.1</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="fragment">
-                            <table>
-                                <tr>
-                                    <th>Object Tracker</th>
-                                    <th>FPS</th>
-                                </tr>
-                                <tr>
-                                    <td>StrongSORT</td>
-                                    <td>1.5</td>
-                                </tr>
-                                <tr>
-                                    <td>DeepSORT</td>
-                                    <td>3.2</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                <h3>Challenge</h3>
+                <div>Meanwhile ML models to process them are still slow.</div>
+                <br /> <br />
+                <columns>
+                    <column-2 data-markdown>
+                        | Object Detector | FPS |
+                        | --- | ---: |
+                        | Mask-RCNN | 4.3 |
+                        | RetinaNet (R101+FPN) | 14.3 |
+                        | YOLOv5 | 90.1 |
+                    </column-2>
+                    <column-2 data-markdown>
+                        | Object Tracker | FPS |
+                        | --- | ---: |
+                        | StrongSORT | 1.5 |
+                        | DeepSORT | 3.2 |
+                    </column-2>
+                </columns>
             </section>
             <section>
-                <h3>Motivation</h3>
+                <h3>Challenge</h3>
                 <div>
                     <div>Meanwhile ML models to process them are still slow.</div>
                     <p>Faster Hardwares are not always available</p>
