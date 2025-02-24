@@ -44,10 +44,10 @@
     <br />
     <br />
     <columns>
-        <div class="w-[65%]">
+        <div class="w-[75%]">
             <div class="fragment custom fade">
                 <h3 class="line-height-1">Motivation</h3>
-                <div class="text-color text-3xl">Problem with video processing.
+                <div class="text-color text-3xl">Challenges with video inferencing.
                     <br />
                     &nbsp;
                 </div>
@@ -111,9 +111,52 @@
         </column>
     </columns>
 </section>
+<section data-auto-animate>
+    <h3>Challenge #1</h3>
+    <h4>The overwhelming diversity of interfaces for tools for video analytics.</h4>
+    <br/>
+    <columns>
+        <column>
+            <div data-markdown>
+            ### Video En-/De-coder
+            - FFmpeg
+            - OpenCV
+            </div>
+            <div data-markdown class="fragment">
+            ### Object Detector
+            - Mask-RCNN
+            - RetinaNet
+            - YOLOv5
+            </div>
+        </column>
+        <column>
+            <div data-markdown class="fragment">
+            ### Object Tracker
+            - SORT
+            - DeepSORT
+            - StrongSORT
+            </div>
+            <div data-markdown class="fragment">
+            ### Query Processor
+            - MobilityDB
+            - PostGIS
+            </div>
+        </column>
+    </columns>
+    <aside class="notes" data-markdown>
+        - The first challenge of video analytics is the overwhelming amount of tools and their interfaces for video analytics.
+        - It is unclear how to integrate these tools together to form a video analytics pipeline.
+        - For example, ffmpeg decode videos into a stream of bytes, while OpenCV can decode videos into numpy arrays.
+        - All object detectors have different output format.
+        - DeepSORT and StrongSORT requires video frame input, while SORT does not.
+        - Finally, MobilityDB provides helpful utility functions for trajectories data, while PostGIS provides a more standardized interface for GIS.
+        - Each tools are developed independently and is not necessarily developed for video analytics in mind.
+        - This leads to a lot of overhead in integrating these tools together when constructing a video analytics pipeline.
+    </aside>
+</section>
 <section>
-    <h3>Challenge</h3>
-    <div>Meanwhile ML models to process them are still slow.</div>
+    <h3>Challenge #2</h3>
+    <div>ML models to process video data are still slow.</div>
     <br /> <br />
     <columns>
         <column data-markdown>
@@ -140,8 +183,8 @@
     </div>
 </section>
 <section>
-    <h3>Challenge</h3>
-    <div>Meanwhile ML models to process them are still slow.</div>
+    <h3>Challenge #1</h3>
+    <div>ML models to process video data are still slow.</div>
     <div data-markdown>
         - Faster Hardwares are not always available.
         - Inventing new and more efficient ML models is too specific to tasks.
@@ -149,7 +192,7 @@
 </section>
 <section vcenter>
     <p>Boarder Research Question</p>
-    <h2>How do we <span>algorithmically</span> speed up ML-based video inference?</h2>
+    <h2>How do we speed up ML-based video inference?</h2>
 </section>
 <section>
     <h3>Background</h3>
@@ -172,6 +215,18 @@
 <section>
     <h3>Prior Approaches</h3>
     <h4>Query-specific Optimization</h4>
+    <br/>
+    <br/>
+    <div data-markdown>
+        Most optimization techniques are query-specific.
+        - Optimization
+          - aggregated statistics
+        - Optimization
+          - Original pipeline
+            - Can get different behaviors
+            - Trajectories materialization
+          - Directly getting the ml results for further analysis
+    </div>
 </section>
 
 <body>
@@ -179,18 +234,20 @@
         <div class="slides"></div>
     </div>
     <script>
-        $('.reveal .slides').append(...$('section'))
+        (function() {
+            $('.reveal .slides').append(...$('section'))
 
-        $('columns').each((_, columns) => {
-            const nColumns = $(columns).children().length
-            const nSpaces = nColumns - 1
-            const width = (100 - (nSpaces * 2.5)) / nColumns
-            const style = `width: ${width}%;`
-            $(columns)
-                .children()
-                .filter('column')
-                .each(c => c[1].setAttribute('style', style))
-        })
+            $('columns').each((_, columns) => {
+                const nColumns = $(columns).children().length
+                const nSpaces = nColumns - 1
+                const width = (100 - (nSpaces * 2.5)) / nColumns
+                const style = `width: ${width}%;`
+                $(columns)
+                    .children()
+                    .filter('column')
+                    .each((_, column) => column.setAttribute('style', style))
+            })
+        })()
     </script>
 
     <script src="dist/reveal.js"></script>
@@ -207,12 +264,16 @@
             hash: true,
 
             transition: 'none',
+            backgroundTransition: 'none',
             slideNumber: 'c',
             controls: false,
             // progress: false,
 
             width: 16 * SCALE,
             height: 9 * SCALE,
+            markdown: {
+    smartypants: true,
+  },
 
             plugins: [
                 RevealMarkdown,
