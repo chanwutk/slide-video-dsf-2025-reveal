@@ -88,9 +88,9 @@
     <columns>
         <column>
             <p>Variety of video data sources.</p>
-            <img src="assets/data-nuscenes.svg" style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" />
-            <img src="assets/data-i24.png" style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" />
-            <img src="assets/data-bdd.png" style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" />
+            <img style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" src="assets/data-nuscenes.svg" />
+            <img style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" src="assets/data-i24.png" />
+            <img style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" src="assets/data-bdd.png" />
         </column>
         <column>
             <p class="fragment">With real-world use cases.</p>
@@ -153,13 +153,21 @@
 </section>
 <section>
     <h3>Background</h3>
-    <h4>Video Inference Tasks and their Bottleneck.</h4>
-    <img src="assets/od-pipeline.svg" class="w-100%" />
+    <h4>Video inference tasks and their bottleneck.</h4>
+    <br/>
+    <div class="r-stack">
+        <img src="assets/od-pipeline-1.svg" class="w-100%" />
+        <img src="assets/od-pipeline-2.svg" class="w-100% fragment" />
+    </div>
 </section>
 <section>
     <h3>Background</h3>
-    <h4>Video Inference Tasks and their Bottleneck.</h4>
-    <img src="assets/ot-pipeline.svg" class="w-100%" />
+    <h4>Video inference tasks and their bottleneck.</h4>
+    <br/>
+    <div class="r-stack">
+        <img src="assets/ot-pipeline-1.svg" class="w-100%" />
+        <img src="assets/ot-pipeline-2.svg" class="w-100% fragment" />
+    </div>
 </section>
 <section>
     <h3>Prior Approaches</h3>
@@ -168,20 +176,20 @@
 
 <body>
     <div class="reveal">
-        <div class="slides" />
+        <div class="slides"></div>
     </div>
     <script>
         $('.reveal .slides').append(...$('section'))
 
         $('columns').each((_, columns) => {
-            const numColumns = $(columns).children().length
-            const numSpaces = numColumns - 1
-            const width = (100 - (numSpaces * 2.5)) / numColumns
+            const nColumns = $(columns).children().length
+            const nSpaces = nColumns - 1
+            const width = (100 - (nSpaces * 2.5)) / nColumns
             const style = `width: ${width}%;`
             $(columns)
                 .children()
                 .filter('column')
-                .each((_, column) => column.setAttribute('style', style))
+                .each(c => c[1].setAttribute('style', style))
         })
     </script>
 
@@ -201,7 +209,7 @@
             transition: 'none',
             slideNumber: 'c',
             controls: false,
-            progress: false,
+            // progress: false,
 
             width: 16 * SCALE,
             height: 9 * SCALE,
