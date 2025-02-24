@@ -13,158 +13,188 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         type="text/css" ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="plugin/diagram/revealjs-diagram.css">
 
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="plugin/highlight/monokai.css">
 </head>
 
+<section data-background-color="black"></section>
+<section vcenter>
+    <h2 class="text-left">Efficient Video Inference with Spatiotemporal Knowledge</h2>
+    <h4 class="text-color">Chanwut (Mick) Kittivorawong</h4>
+    <div class="flex justify-between w-2/5 h-35pt">
+        <img src="assets/logo-berkeley.svg" class="h-full !m-0" />
+        <img src="assets/logo-sky.png" class="h-full !m-0 !mr-2" />
+        <img src="assets/logo-dsf.svg" class="h-full !m-0" />
+    </div>
+    <aside class="notes">
+        Hi everyone
+
+        My name is Mick. I am a 3rd-year Ph.D. student advised by Professor Alvin Cheung.
+    </aside>
+</section>
+<section>
+    <h2>Overview</h2>
+    <br />
+    <br />
+    <columns>
+        <div class="w-[65%]">
+            <div class="fragment custom fade">
+                <h3 class="line-height-1">Motivation</h3>
+                <div class="text-color text-3xl">Problem with video processing.
+                    <br />
+                    &nbsp;
+                </div>
+            </div>
+            <br />
+            <div class="fragment custom fade">
+                <h3>Background + Prior Work</h3>
+                <div class="text-color text-3xl">Basic video processing tasks.</div>
+                <div class="text-color text-3xl">Directions in video processing optimization.</div>
+            </div>
+        </div>
+        <div>
+            <div class="fragment custom fade">
+                <h3>Spatialyze</h3>
+                <div class="text-color text-3xl">My existing work on video processing optimization.</div>
+            </div>
+            <br />
+            <div class="fragment custom fade">
+                <h3>Ongoing Research</h3>
+                <div class="text-color text-3xl">What to improve upon my existing work?</div>
+            </div>
+        </div>
+    </columns>
+</section>
+<section>
+    <h3>Motivation</h3>
+    <h4>Video data is abundant, and its volume keeps increasing.</h4>
+    <br />
+    <div class="flex justify-center w-[100%]">
+        <img src="assets/youtube-upload.svg" style="padding: 0; margin: 0" />
+    </div>
+    <div class="absolute left-0 bottom-0 text-[8.5pt] color-gray">Hours of video uploaded to YouTube every
+        minute as of February 2022 [Graph], YouTube, & Google, June 22, 2022. [Online]. Available:
+        https://www.statista.com/statistics/259477/hours-of-video-uploaded-to-youtube-every-minute</div>
+</section>
+<section>
+    <h3>Motivation</h3>
+    <columns>
+        <column>
+            <p>Variety of video data sources.</p>
+            <img src="assets/data-nuscenes.svg" style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" />
+            <img src="assets/data-i24.png" style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" />
+            <img src="assets/data-bdd.png" style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" />
+        </column>
+        <column>
+            <p class="fragment">With real-world use cases.</p>
+            <div>
+                <div class="fragment">
+                    <img src="assets/data-ex-nuscenes.gif" class="b-rd-4px w-500px !pb-0 !mb-0" />
+                    <p class="text-xl p-0 m-0">Finding for cars at an intersection.</p>
+                </div>
+                <div class="fragment">
+                    <img src="assets/data-ex-jackson.gif" class="b-rd-4px w-500px !pb-0 !mb-0" />
+                    <p class="text-xl p-0 m-0">Aggregate vehicle statistics on traffic intersections.</p>
+                </div>
+                <div class="fragment">
+                    <img src="assets/data-ex-b3d.gif" class="b-rd-4px w-500px !pb-0 !mb-0" />
+                    <p class="text-xl p-0 m-0">Building a statistical model on vehicles coordination.</p>
+                </div>
+            </div>
+        </column>
+    </columns>
+</section>
+<section>
+    <h3>Challenge</h3>
+    <div>Meanwhile ML models to process them are still slow.</div>
+    <br /> <br />
+    <columns>
+        <column data-markdown>
+            | Object Detector | FPS |
+            | --- | ---: |
+            | Mask-RCNN | 4.3 |
+            | RetinaNet (R101+FPN) | 14.3 |
+            | YOLOv5 | 90.1 |
+        </column>
+        <column data-markdown>
+            | Object Tracker | FPS |
+            | --- | ---: |
+            | StrongSORT | 1.5 |
+            | DeepSORT | 3.2 |
+        </column>
+    </columns>
+    <div class="absolute left-0 bottom-0 text-[8pt] color-gray">Yunhao Du, Zhicheng Zhao, Yang Song, Yanyun
+        Zhao, Fei Su, Tao Gong, and Hongying Meng. 2023. StrongSORT: Make DeepSORT Great Again. IEEE
+        Transactions on Multimedia 25, (2023), 8725-8737. DOI:https://doi.org/10.1109/TMM.2023.3240881
+        <br />
+        Jaeho Bang, Gaurav Tarlok Kakkar, Pramod Chunduri, Subrata Mitra, and Joy Arulraj. 2023. Seiden:
+        Revisiting Query Processing in Video Database Systems. Proc. VLDB Endow. 16, 9 (May 2023),
+        2289-2301. https://doi.org/10.14778/3598581.3598599
+    </div>
+</section>
+<section>
+    <h3>Challenge</h3>
+    <div>Meanwhile ML models to process them are still slow.</div>
+    <div data-markdown>
+        - Faster Hardwares are not always available.
+        - Inventing new and more efficient ML models is too specific to tasks.
+    </div>
+</section>
+<section vcenter>
+    <p>Boarder Research Question</p>
+    <h2>How do we <span>algorithmically</span> speed up ML-based video inference?</h2>
+</section>
+<section>
+    <h3>Background</h3>
+    <h4>Video Inference Tasks and their Bottleneck.</h4>
+    <img src="assets/od-pipeline.svg" class="w-100%" />
+</section>
+<section>
+    <h3>Background</h3>
+    <h4>Video Inference Tasks and their Bottleneck.</h4>
+    <img src="assets/ot-pipeline.svg" class="w-100%" />
+</section>
+<section>
+    <h3>Prior Approaches</h3>
+    <h4>Query-specific Optimization</h4>
+</section>
+
 <body>
     <div class="reveal">
-        <div class="slides">
-            <section class="vcenter">
-                <h2 class="text-left">Efficient Video Inference with Spatiotemporal Knowledge</h2>
-                <h4 class="text-color">Chanwut (Mick) Kittivorawong</h4>
-                <div class="flex justify-between w-2/5 h-35pt">
-                    <img src="assets/logo-berkeley.svg" class="h-full !m-0" />
-                    <img src="assets/logo-sky.png" class="h-full !m-0 !mr-2" />
-                    <img src="assets/logo-dsf.svg" class="h-full !m-0" />
-                </div>
-                <aside class="notes">
-                    Hi everyone
-
-                    My name is Mick. I am a 3rd-year Ph.D. student advised by Professor Alvin Cheung.
-                </aside>
-            </section>
-            <section>
-                <h2>Overview</h2>
-                <br />
-                <br />
-                <columns>
-                    <div>
-                        <div class="fragment custom fade">
-                            <h3 class="line-height-1">Motivation</h3>
-                            <div class="text-color text-3xl">Problem with video processing.
-                                <br />
-                                &nbsp;
-                            </div>
-                        </div>
-                        <br />
-                        <div class="fragment custom fade">
-                            <h3>Background + Prior Work</h3>
-                            <div class="text-color text-3xl">Basic video processing tasks.</div>
-                            <div class="text-color text-3xl">Directions in video processing optimization.</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="fragment custom fade">
-                            <h3>Spatialyze</h3>
-                            <div class="text-color text-3xl">My existing work on video processing optimization.</div>
-                        </div>
-                        <br />
-                        <div class="fragment custom fade">
-                            <h3>Ongoing Research</h3>
-                            <div class="text-color text-3xl">What to improve upon my existing work?</div>
-                        </div>
-                    </div>
-                </columns>
-            </section>
-            <section>
-                <h3>Motivation</h3>
-                <h4>Video data is abundant, and its volume keeps increasing.</h4>
-                <div class="flex justify-center w-[100%]">
-                    <img src="assets/youtube-upload.svg" style="padding: 0; margin: 0" />
-                </div>
-                <div class="absolute left-0 bottom-0 text-[8.5pt] color-gray">Hours of video uploaded to YouTube every
-                    minute as of February 2022 [Graph], YouTube, & Google, June 22, 2022. [Online]. Available:
-                    https://www.statista.com/statistics/259477/hours-of-video-uploaded-to-youtube-every-minute</div>
-            </section>
-            <section>
-                <h3>Motivation</h3>
-                <columns>
-                    <column-2>
-                        <p>Many more sources of video data.</p>
-                        <img src="assets/data-nuscenes.svg" style="background-color: black"
-                            class="b-rd-4px p-12px !mb-4 w-500px" />
-                        <img src="assets/data-i24.png" style="background-color: black"
-                            class="b-rd-4px p-12px !mb-4 w-500px" />
-                        <img src="assets/data-bdd.png" style="background-color: black"
-                            class="b-rd-4px p-12px !mb-4 w-500px" />
-                    </column-2>
-                    <column-2>
-                        <p class="fragment">With multiple use cases.</p>
-                        <div>
-                            <div class="fragment">
-                                <img src="assets/data-ex-nuscenes.gif" style="background-color: black"
-                                    class="b-rd-4px w-500px !pb-0 !mb-0" />
-                                <p class="text-xl p-0 m-0">Finding for cars at an intersection.</p>
-                            </div>
-                            <div class="fragment">
-                                <img src="assets/data-ex-jackson.gif" style="background-color: black"
-                                    class="b-rd-4px w-500px !pb-0 !mb-0" />
-                                <p class="text-xl p-0 m-0">Aggregate vehicle statistics on traffic intersections.</p>
-                            </div>
-                            <div class="fragment">
-                                <img src="assets/data-ex-b3d.gif" style="background-color: black"
-                                    class="b-rd-4px w-500px !pb-0 !mb-0" />
-                                <p class="text-xl p-0 m-0">Building a statistical model on vehicles coordination.</p>
-                            </div>
-                        </div>
-                    </column-2>
-                </columns>
-            </section>
-            <section>
-                <h3>Challenge</h3>
-                <div>Meanwhile ML models to process them are still slow.</div>
-                <br /> <br />
-                <columns>
-                    <column-2 data-markdown>
-                        | Object Detector | FPS |
-                        | --- | ---: |
-                        | Mask-RCNN | 4.3 |
-                        | RetinaNet (R101+FPN) | 14.3 |
-                        | YOLOv5 | 90.1 |
-                    </column-2>
-                    <column-2 data-markdown>
-                        | Object Tracker | FPS |
-                        | --- | ---: |
-                        | StrongSORT | 1.5 |
-                        | DeepSORT | 3.2 |
-                    </column-2>
-                </columns>
-            </section>
-            <section>
-                <h3>Challenge</h3>
-                <div>
-                    <div>Meanwhile ML models to process them are still slow.</div>
-                    <p>Faster Hardwares are not always available</p>
-                    <p>Inventing new and more efficient ML models is to specific to tasks</p>
-                    <p>We need</p>
-                </div>
-            </section>
-            <section class="vcenter">
-                <p>Boarder Research Question</p>
-                <h2>How do we algorithmically make ML-Based video processing faster?</h2>
-            </section>
-            <section>
-                <h3>Background</h3>
-                <h4>Video Processing Tasks.</h4>
-            </section>
-            <section>
-                <h2>Prior Work</h2>
-                <h4>Query-sp ecific Optimization</h4>
-            </section>
-        </div>
+        <div class="slides" />
     </div>
+    <script>
+        $('.reveal .slides').append(...$('section'))
+
+        $('columns').each((_, columns) => {
+            const numColumns = $(columns).children().length
+            const numSpaces = numColumns - 1
+            const width = (100 - (numSpaces * 2.5)) / numColumns
+            const style = `width: ${width}%;`
+            $(columns)
+                .children()
+                .filter('column')
+                .each((_, column) => column.setAttribute('style', style))
+        })
+    </script>
 
     <script src="dist/reveal.js"></script>
     <script src="plugin/notes/notes.js"></script>
     <script src="plugin/markdown/markdown.js"></script>
     <script src="plugin/highlight/highlight.js"></script>
 
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="plugin/diagram/revealjs-diagram.js"></script>
+
     <script>
+        const SCALE = 85;
         Reveal.initialize({
             hash: true,
 
@@ -173,8 +203,8 @@
             controls: false,
             progress: false,
 
-            width: 16 * 85,
-            height: 9 * 85,
+            width: 16 * SCALE,
+            height: 9 * SCALE,
 
             plugins: [
                 RevealMarkdown,
@@ -183,10 +213,6 @@
             ],
         })
     </script>
-    <!-- <img src="assets/corner.svg" class="corner  !-left-7    !-top-7" />
-    <img src="assets/corner.svg" class="corner !-right-7    !-top-7 rotate-90" />
-    <img src="assets/corner.svg" class="corner !-right-7 !-bottom-7 rotate-180" />
-    <img src="assets/corner.svg" class="corner  !-left-7 !-bottom-7 rotate-270" /> -->
 </body>
 
 </html>

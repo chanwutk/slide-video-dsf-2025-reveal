@@ -20,20 +20,16 @@ section {
     width: 94% !important;
 }
 
-section:not(.vcenter) {
+section:not([vcenter]) {
     height: 94% !important;
     max-height: 94% !important;
 }
 
-section:not(.hcenter) {
+section:not([hcenter]) {
     text-align: left;
 }
 
-.text-color {
-    color: var(--header-text-color);
-}
-
-h4.text-color {
+.text-color, .ctext {
     color: var(--header-text-color);
 }
 
@@ -44,35 +40,6 @@ h3 {
     line-height: 1 !important;
     margin-bottom: 10pt !important;
     letter-spacing: -.03em !important;
-}
-
-.column {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-.row {
-    display: flex;
-    flex-direction: column;
-}
-
-.content {
-    position: absolute;
-    bottom: 0;
-    height: 85%;
-    display: flex;
-    flex-direction: column;
-}
-
-.fill {
-    flex: 1;
-}
-
-.center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 columns {
@@ -89,13 +56,6 @@ columns {
     opacity: 1;
 }
 
-.corner {
-    position: absolute !important;
-    height: calc(21rem / 4) !important;
-    z-index: 99999 !important;
-    margin: 0 !important;
-}
-
 section columns * {
     margin-top: 0 !important;
 }
@@ -105,35 +65,16 @@ html {
 }
 
 body {
+    /* Slide's rounded corner */
     background-color: white !important;
-    border-radius: 16px;
+    border-radius: 16px !important;
 }
 
-column-1 {
-    width: calc(16 * 85px) !important;
-}
-
-column-2 {
-    width: calc((100% / 2) - (1% * (2 - 1) )) !important;
-}
-
-column-3 {
-    width: calc((100% / 3) - (1% * (3 - 1) )) !important;
-}
-
-column-4 {
-    width: calc((100% / 4) - (1% * (4 - 1) )) !important;
-}
-
-table {
+table, td, th {
     border: 2px solid black;
 }
 
 th {
     background-color: black;
     color: white;
-}
-
-td {
-    border: 2px solid black;
 }
