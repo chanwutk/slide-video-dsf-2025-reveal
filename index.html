@@ -148,6 +148,7 @@
                 - OpenCV
             </div>
             <br />
+            <br />
             <div data-markdown class="fragment">
                 ### Object Detector
                 - Mask-RCNN
@@ -282,7 +283,7 @@
     <br />
     <div data-markdown>
         <textarea data-template>
-        ```sql [1-7|3|7|3,7]
+        ```sql [1-7|3|7]
         --- Retrieval Query
         SELECT frame_id FROM UA-DETRAC
         WHERE COUNT(TRUCK) > 0 WITH PRECISION > 0.95;
@@ -295,32 +296,58 @@
     </div>
     <br />
     <columns>
-    <column data-markdown class="fragment">
-        **Retrieval Query**
-        - NoScope (Kang, 2017)
-    </column>
-    <column data-markdown class="fragment">
-        **Aggregate Query**
-        - BlazeIt (Kang, 2019)
-    </column>
-    <column data-markdown class="fragment">
-        **Both**
-        - TASTI (Kang, 2022)
-        - Seiden (Bang, 2023)
-    </column>
+        <column data-markdown>
+            **Retrieval Query**
+            - NoScope (Kang, 2017)
+        </column>
+        <column data-markdown>
+            **Aggregate Query**
+            - BlazeIt (Kang, 2019)
+        </column>
+        <column data-markdown>
+            **Both**
+            - TASTI (Kang, 2022)
+            - Seiden (Bang, 2023)
+        </column>
     </columns>
     <aside class="notes" data-markdown>
         - Most of the existing optimization techniques are query-specific.
-        - Where 
+        - Where the final results of the pipeline are to retrieve frames or compute statistics and restricted by some error constraints.
+        - NoScope, BlazeIt, and TASTI make use of small proxy models to act as both video and query processor.
+        - Seiden instead uses the temporal properties of videos to propagate query results between nearby video frames.
+        - However, we find that these types of optimization techniques are quite restrictive to only specific types of queries.
+        - Therefore, I would like to present my approach for building an end-to-end system for efficiently video analytics.
     </aside>
+</section>
+<section vcenter>
+    <div data-markdown>
+    ## Spatialyze
+    - An end-to-end geospatial video analytics system.
+    - Leverage spatiotemporal properties to sample only relevant frames.
+    </div>
+
+    <br/>
+
+    <div data-markdown class="fragment custom fade">
+    ## Ongoing Research
+    - Focus on video processing.
+    - Combine proxy models with spatiotemporal knowledge.
+    </div>
 </section>
 
 <body>
-    <div class="reveal">
-        <div class="slides"></div>
-    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="plugin/diagram/revealjs-diagram.js"></script>
+
     <script>
         (function () {
+            const SCALE = 85;
+            $('body').prepend($('<div class="reveal">').append($('<div class="slides">')))
             $('.reveal .slides').append(...$('section'))
 
             $('columns').each((_, columns) => {
@@ -333,40 +360,28 @@
                     .filter('column')
                     .each((_, column) => column.setAttribute('style', style))
             })
+            Reveal.initialize({
+                hash: true,
+
+                transition: 'none',
+                backgroundTransition: 'none',
+                slideNumber: 'c',
+                controls: false,
+                progress: false,
+
+                width: 16 * SCALE,
+                height: 9 * SCALE,
+                markdown: {
+                    gfm: true,
+                },
+
+                plugins: [
+                    RevealMarkdown,
+                    RevealHighlight,
+                    RevealNotes,
+                ],
+            })
         })()
-    </script>
-
-    <script src="dist/reveal.js"></script>
-    <script src="plugin/notes/notes.js"></script>
-    <script src="plugin/markdown/markdown.js"></script>
-    <script src="plugin/highlight/highlight.js"></script>
-
-    <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="plugin/diagram/revealjs-diagram.js"></script>
-
-    <script>
-        const SCALE = 85;
-        Reveal.initialize({
-            hash: true,
-
-            transition: 'none',
-            backgroundTransition: 'none',
-            slideNumber: 'c',
-            controls: false,
-            // progress: false,
-
-            width: 16 * SCALE,
-            height: 9 * SCALE,
-            markdown: {
-                gfm: true,
-            },
-
-            plugins: [
-                RevealMarkdown,
-                RevealHighlight,
-                RevealNotes,
-            ],
-        })
     </script>
 </body>
 

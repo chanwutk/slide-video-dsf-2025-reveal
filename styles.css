@@ -2,6 +2,10 @@
     --header-text-color: #002676;
 }
 
+section {
+    display: none;
+}
+
 .slides {
     display: flex !important;
     justify-content: center;
@@ -12,8 +16,8 @@
 }
 
 .slide-number-a {
-    color: var(--header-text-color);
-    font-size: 40px;
+    color: black;
+    font-size: 25px;
     opacity: 0.4;
 }
 
