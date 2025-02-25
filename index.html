@@ -56,7 +56,7 @@
             <div class="fragment custom fade">
                 <h3>Background + Prior Work</h3>
                 <div class="text-color text-3xl">* Basic video processing tasks.</div>
-                <div class="text-color text-3xl">* Prior work done to accelerate video processing.</div>
+                <div class="text-color text-3xl">* Prior work to accelerate video processing.</div>
             </div>
         </div>
         <div>
@@ -275,14 +275,15 @@
     <br />
     <div data-markdown>
         <textarea data-template>
-        ```sql [1-7|3|7]
+        ```sql [1-9|4|7]
         --- Retrieval Query
-        SELECT frame_id FROM UA-DETRAC
-        WHERE COUNT(TRUCK) > 0 WITH PRECISION > 0.95;
+        SELECT frame_id
+        FROM UA-DETRAC
+        WHERE COUNT(TRUCK) > 0;
 
         --- Aggregate Query
-        SELECT AVG(COUNT(CAR)) FROM UA-DETRAC
-        WITH CONFIDENCE > 95% AND ERROR < 0.2;
+        SELECT AVG(COUNT(CAR))
+        FROM UA-DETRAC;
         ```
         </textarea>
     </div>
@@ -299,7 +300,7 @@
             BlazeIt (Kang, 2019)
         </column>
         <column data-markdown>
-            **Both**
+            **Support Both**
 
             TASTI (Kang, 2022)
 
@@ -308,8 +309,7 @@
     </columns>
     <aside class="notes" data-markdown>
         - Most of the existing optimization techniques are query-specific.
-        - Where the final results of the pipeline are to retrieve frames or compute statistics and restricted by some
-        error constraints.
+        - Where the final results of the pipeline are to retrieve frames or compute statistics.
         - NoScope, BlazeIt, and TASTI make use of small proxy models to act as both video and query processor.
         - Seiden instead uses the temporal properties of videos to propagate query results between nearby video frames.
         - However, we find that these types of optimization techniques are quite restrictive to only specific types of
@@ -398,9 +398,9 @@
             <h4>Video inference is <mark class="fragment custom hl-red" data-fragment-index="1">slow</mark>.</h4>
         </column>
         <column>
-            <h4>Prior solutions come with significant trade-off of being <mark
-                    class="fragment custom hl-yellow" data-fragment-index="2">query-restricted</mark> or <mark
-                    class="fragment custom hl-yellow" data-fragment-index="2">domain-restricted</mark>.</h4>
+            <h4>Prior solutions come with significant trade-off of being <mark class="fragment custom hl-yellow"
+                    data-fragment-index="2">query-restricted</mark> or <mark class="fragment custom hl-yellow"
+                    data-fragment-index="2">domain-restricted</mark>.</h4>
         </column>
     </columns>
     <br />
@@ -440,19 +440,9 @@
                     .each((_, column) => column.setAttribute('style', style))
             })
             Reveal.initialize({
-                hash: true,
-
-                transition: 'none',
-                backgroundTransition: 'none',
-                slideNumber: 'c',
-                controls: false,
-                progress: false,
-
                 width: 16 * SCALE,
                 height: 9 * SCALE,
-                markdown: {
-                    gfm: true,
-                },
+                markdown: { gfm: true },
 
                 plugins: [
                     RevealMarkdown,
