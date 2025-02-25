@@ -118,8 +118,13 @@ code table, code td, code th {
     border: none;
 }
 
-pre.code-wrapper {
+pre.code-wrapper:not(.o-width) {
     margin-left: 0 !important;
     margin-right: 0 !important;
     width: 100% !important;
+}
+
+.snode {
+    border: 4px black solid !important;
+    border-radius: 8px !important;
 }

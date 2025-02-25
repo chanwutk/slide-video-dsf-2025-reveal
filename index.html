@@ -309,7 +309,9 @@
     </columns>
     <aside class="notes" data-markdown>
         - Most of the existing optimization techniques are query-specific.
-        - Where the final results of the pipeline are to retrieve frames or compute statistics.
+        - Where the final results of the pipeline are to
+        - (Click) retrieve frames or
+        - (Click) compute statistics.
         - NoScope, BlazeIt, and TASTI make use of small proxy models to act as both video and query processor.
         - Seiden instead uses the temporal properties of videos to propagate query results between nearby video frames.
         - However, we find that these types of optimization techniques are quite restrictive to only specific types of
@@ -331,12 +333,12 @@
         - Combine proxy models with spatiotemporal knowledge.
     </div>
     <aside class="notes" data-markdown>
-        - Therefore, I would like to present my approach for building an end-to-end system for efficiently video
+        - Therefore, I would like to present my approach for building an end-to-end system for efficient video
         analytics.
         - In the first project in this research, we built a geospatial video analytics system
         - Where users analyze videos together with their geospatial data.
         - And our system optimize the video processing pipeline based on the users' queries
-        - In the ongoing research, we shifted our focus to video processing pipeline.
+        - (Click) In the ongoing research, we shifted our focus to video processing pipeline.
         - We are combining proxy models with spatiotemporal knowledge to accelerate video inference.
     </aside>
 </section>
@@ -347,31 +349,17 @@
     <h3>Issues with Spatialyze.</h3>
     <br />
     <br />
+    <br />
     <columns>
         <column data-markdown class="fragment fade-in-then-semi-out">
             <textarea data-template>
             ```pt
-
-
-
-
             w = World()
-            rn = RoadNetwork('./road')
-            w.addGeogConstructs(rn)
-            ```
-            #### Requires user-provided geospatial metadata.
-            </textarea>
-        </column>
-        <column data-markdown class="fragment fade-in-then-semi-out">
-            <textarea data-template>
-            ```pt
-
+            w.addGeogConstructs(RoadNetwork('./road'))
             w.addVideo(GeospatialVideo(
-                Video('v0.mp4'),
-                Camera('c0.json')))
+                Video('v0.mp4'), Camera('c0.json')))
             w.addVideo(GeospatialVideo(
-                Video('v1.mp4'),
-                Camera('c1.json')))
+                Video('v1.mp4'), Camera('c1.json')))
             ```
             #### Restricted to only geospatial video analytics.
             </textarea>
@@ -381,8 +369,7 @@
             ```pt
             o = w.object()
             c = w.camera()
-            inter = w.geogConstruct(
-                type='intersection')
+            inter = w.geogConstruct(type='intersection')
             w.filter((o.type == 'car')
               & (distance(o, c) < 50)
               & contains(inter, o))
@@ -391,6 +378,17 @@
             </textarea>
         </column>
     </columns>
+    <aside class="notes" data-markdown>
+        - Now, we have built an end-to-end geospatial video analytics system starting from
+        - Video data and geospatial data integration.
+        - Video Inference and optimizaiton.
+        - And, Query Processing.
+        - However, Spatialyze has its own limitation.
+        - (Click) First, restricted to only geospatial video analytics.
+        - Without geospatial metadaata, the "world" data model does not make much sense.
+        - (Click) Second, most of its optimization techniques heavily relies on users' geospatial queries.
+        - Which is not ideal for general video analytics.
+    </aside>
 </section>
 <section vcenter>
     <columns>
@@ -408,10 +406,111 @@
         and <mark class="fragment custom hl-green" data-fragment-index="3">proxy model approach</mark> together to allow
         both domain- and query-flexibility in video inference acceleration.
     </h3>
+    <aside class="notes" data-markdown>
+        - Given this issues mainly on the optimization restriction, we revise our research statement as follow.
+        - (click)
+        - (click)
+        - (click)
+        - We shift our focus from building an entire end-to-end system to a smaller scope of optimizing video inference
+        pipeline.
+    </aside>
 </section>
 <section>
-    <h3>Prior Work</h3>
-    <h4>Proxy-based approach.</h4>
+    <h3>Prior Work: Proxy-based approach.</h3>
+    <br />
+    <h4>Basic Video Retrieval Query</h4>
+    <div class="flex justify-between items-center">
+        <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5">Object<br />Detector</div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div>
+            <strong>Query Processor</strong>
+            <pre class="!p-0 !m-0"><code class="language-sql">WHERE COUNT(TRUCK) > 0</code></pre>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5"><strong>Query answer:</strong><br />Frame
+            49-77</div>
+    </div>
+    <br />
+    <h4 class="fragment" data-fragment-index="1">NoScope (Kang, 2017)</h4>
+    <div class="flex justify-between items-center fragment" data-fragment-index="1">
+        <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5 w-45%">
+            <div class="flex items-center justify-between">
+                <div class="snode p-2" style="background-color: yellow;">
+                    Proxy Model
+                </div>
+                &cong;
+                <div class="snode p-2 flex flex-col items-center text-3xl line-height-100%">
+                    <div>Obj. Detector</div>
+                    +
+                    <div>Q. Processor</div>
+                </div>
+            </div>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5"><strong>Query answer:</strong><br />Frame
+            50-75</div>
+    </div>
+    <aside class="notes" data-markdown>
+        - First of all, let's revisit the proxy-based approach.
+        - Systems like NoScope and TASTI use small proxy ML models to act as their original oracle ML models for
+        specific queries.
+        - The core concepts of the proxy approach comes from the fact that certain kind of queries only need summarized
+        results of the oracle model.
+        - For example, in a simple object detection tasks shown
+    </aside>
+</section>
+<section>
+    <h3>Prior Work: Proxy-based approach.</h3>
+    <br />
+    <h4>Basic Video Aggregate Query</h4>
+    <div class="flex justify-between items-center">
+        <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5">Object<br />Detector</div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div>
+            <strong>Query Processor</strong>
+            <pre class="!p-0 !m-0"><code class="language-sql">SELECT AVG(COUNT(CAR))</code></pre>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5"><strong>Query answer:</strong><br />1.2 Cars</div>
+    </div>
+    <br />
+    <h4 class="fragment" data-fragment-index="1">BlazeIt (Kang, 2019)</h4>
+    <div class="flex justify-between items-center fragment" data-fragment-index="1">
+        <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5 w-45%">
+            <div class="flex items-center justify-between">
+                <div class="snode p-2" style="background-color: yellow;">
+                    Proxy Model
+                </div>
+                &cong;
+                <div class="snode p-2 flex flex-col items-center text-3xl line-height-100%">
+                    <div>Obj. Detector</div>
+                    +
+                    <div>Q. Processor</div>
+                </div>
+            </div>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5"><strong>Query answer:</strong><br />1.5 Cars</div>
+    </div>
+    <aside class="notes" data-markdown>
+        - First of all, let's revisit the proxy-based approach.
+        - Systems like NoScope and TASTI use small proxy ML models to act as their original oracle ML models for
+        specific queries.
+        - The core concepts of the proxy approach comes from the fact that certain kind of queries only need summarized
+        results of the oracle model.
+        - For example, in a simple object detection tasks shown
+    </aside>
+</section>
+<section>
+    <h3>Prior Work: Proxy ML Models.</h3>
 </section>
 
 <body>
@@ -419,9 +518,6 @@
     <script src="plugin/notes/notes.js"></script>
     <script src="plugin/markdown/markdown.js"></script>
     <script src="plugin/highlight/highlight.js"></script>
-
-    <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="plugin/diagram/revealjs-diagram.js"></script>
 
     <script>
         (function () {
