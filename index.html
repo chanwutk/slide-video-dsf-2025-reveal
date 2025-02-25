@@ -33,10 +33,10 @@
         <img src="assets/logo-sky.png" class="h-full !m-0 !mr-2" />
         <img src="assets/logo-dsf.svg" class="h-full !m-0" />
     </div>
-    <aside class="notes">
-        Hi everyone
-
-        My name is Mick. I am a 3rd-year Ph.D. student advised by Professor Alvin Cheung.
+    <aside class="notes" data-markdown>
+        - Hi everyone
+        - My name is Mick. I am a 4th-year PhD student advised by Professor Alvin Cheung.
+        - Today, I am excited to tell you about my research on Efficient Video Inference with Spatiotemporal Knowledge.
     </aside>
 </section>
 <section>
@@ -44,10 +44,10 @@
     <br />
     <br />
     <columns>
-        <div class="w-[75%]">
+        <div class="w-[62%]">
             <div class="fragment custom fade">
                 <h3 class="line-height-1">Motivation</h3>
-                <div class="text-color text-3xl">Challenges with video inferencing.
+                <div class="text-color text-3xl">* Challenges with video inferencing.
                     <br />
                     &nbsp;
                 </div>
@@ -55,22 +55,30 @@
             <br />
             <div class="fragment custom fade">
                 <h3>Background + Prior Work</h3>
-                <div class="text-color text-3xl">Basic video processing tasks.</div>
-                <div class="text-color text-3xl">Directions in video processing optimization.</div>
+                <div class="text-color text-3xl">* Basic video processing tasks.</div>
+                <div class="text-color text-3xl">* Prior work done to accelerate video processing.</div>
             </div>
         </div>
         <div>
             <div class="fragment custom fade">
                 <h3>Spatialyze</h3>
-                <div class="text-color text-3xl">My existing work on video processing optimization.</div>
+                <div class="text-color text-3xl">* A Geospatial Video Analytics System.</div>
+                <div class="text-color text-3xl">* Programming Model &amp; Optimization.</div>
             </div>
             <br />
             <div class="fragment custom fade">
-                <h3>Ongoing Research</h3>
-                <div class="text-color text-3xl">What to improve upon my existing work?</div>
+                <h3>Ongoing&nbsp;Research</h3>
+                <div class="text-color text-3xl">* Toward more general solutions.</div>
             </div>
         </div>
     </columns>
+    <aside class="notes" data-markdown>
+        - As an overview of this talk, I will
+        - First discuss, the motivation behind my research and the challenges with video inferencing.
+        - Then, I will touch on the background and prior work and give you a general idea of the scope of my research.
+        - Next, I will talk about Spatialyze, a video analytics system we built and published at VLDB.
+        - And finally, I will discuss the restriction of spatialyze and the ongoing research to make it more general.
+    </aside>
 </section>
 <section>
     <h3>Motivation</h3>
@@ -82,6 +90,11 @@
     <div class="absolute left-0 bottom-0 text-[8.5pt] color-gray">Hours of video uploaded to YouTube every
         minute as of February 2022 [Graph], YouTube, & Google, June 22, 2022. [Online]. Available:
         https://www.statista.com/statistics/259477/hours-of-video-uploaded-to-youtube-every-minute</div>
+    <aside class="notes" data-markdown>
+        - The first motivation of my research is the abundance of video data.
+        - Based on the statistics from statista, in 2019, the amount of videos uploaded to youtube reached 500 hours per minute.
+        - Therefore, an efficient tool for analyzing these video data is necessary.
+    </aside>
 </section>
 <section>
     <h3>Motivation</h3>
@@ -110,6 +123,14 @@
             </div>
         </column>
     </columns>
+    <aside class="notes" data-markdown>
+        - In addition, to videos from youtube, there are also a variety of video data sources.
+        - For example, the nuscenes dataset contains videos from self-driving cars.
+        - The i24 dataset contains videos from traffic cameras.
+        - The bdd dataset contains videos from drones' cameras.
+        - These videos are used in real-world use cases.
+        - where data analysts may 
+    </aside>
 </section>
 <section data-auto-animate>
     <h3>Challenge #1</h3>
