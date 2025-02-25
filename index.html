@@ -92,7 +92,8 @@
         https://www.statista.com/statistics/259477/hours-of-video-uploaded-to-youtube-every-minute</div>
     <aside class="notes" data-markdown>
         - The first motivation of my research is the abundance of video data.
-        - Based on the statistics from statista, in 2019, the amount of videos uploaded to youtube reached 500 hours per minute.
+        - Based on the statistics from statista, in 2019, the amount of videos uploaded to youtube reached 500 hours per
+        minute.
         - Therefore, an efficient tool for analyzing these video data is necessary.
     </aside>
 </section>
@@ -125,54 +126,63 @@
     </columns>
     <aside class="notes" data-markdown>
         - In addition, to videos from youtube, there are also a variety of video data sources.
-        - For example, the nuscenes dataset contains videos from self-driving cars.
-        - The i24 dataset contains videos from traffic cameras.
-        - The bdd dataset contains videos from drones' cameras.
+        - For exmaple, these datasets contain videos ranging from self-driving cars, traffic cameras, and drones'
+        cameras.
         - These videos are used in real-world use cases.
-        - where data analysts may 
+        - where an autonomous vehicle researcher may want to find a crash scene at an intersection from a terrabytes of
+        AV footages.
+        - or, a civil engineer may want to aggregate vehicle statistics on traffic intersections.
+        - or, a traffic engineer may want to build statistical models on vehicles coordination.
+        - However, working with these videos is challenging.
     </aside>
 </section>
 <section data-auto-animate>
     <h3>Challenge #1</h3>
     <h4>The overwhelming diversity of interfaces for tools for video analytics.</h4>
-    <br/>
+    <br />
     <columns>
         <column>
             <div data-markdown>
-            ### Video En-/De-coder
-            - FFmpeg
-            - OpenCV
+                ### Video En-/De-coder
+                - FFmpeg
+                - OpenCV
             </div>
+            <br />
             <div data-markdown class="fragment">
-            ### Object Detector
-            - Mask-RCNN
-            - RetinaNet
-            - YOLOv5
+                ### Object Detector
+                - Mask-RCNN
+                - RetinaNet
+                - YOLOv5
             </div>
         </column>
         <column>
             <div data-markdown class="fragment">
-            ### Object Tracker
-            - SORT
-            - DeepSORT
-            - StrongSORT
+                ### Object Tracker
+                - SORT
+                - DeepSORT
+                - StrongSORT
             </div>
+            <br />
             <div data-markdown class="fragment">
-            ### Query Processor
-            - MobilityDB
-            - PostGIS
+                ### Query Processor
+                - MobilityDB
+                - PostGIS
             </div>
         </column>
     </columns>
     <aside class="notes" data-markdown>
-        - The first challenge of video analytics is the overwhelming amount of tools and their interfaces for video analytics.
+        - The first challenge of video analytics is the overwhelming amount of tools and their interfaces for video
+        analytics.
         - It is unclear how to integrate these tools together to form a video analytics pipeline.
-        - For example, ffmpeg decode videos into a stream of bytes, while OpenCV can decode videos into numpy arrays.
+        - For example, ffmpeg decode a video file into a stream of bytes, while OpenCV can decode a video file into a
+        sequence of numpy arrays.
         - All object detectors have different output format.
         - DeepSORT and StrongSORT requires video frame input, while SORT does not.
-        - Finally, MobilityDB provides helpful utility functions for trajectories data, while PostGIS provides a more standardized interface for GIS.
+        - Finally, MobilityDB provides helpful utility functions for trajectories data, while PostGIS provides a more
+        standardized interface for GIS.
         - Each tools are developed independently and is not necessarily developed for video analytics in mind.
-        - This leads to a lot of overhead in integrating these tools together when constructing a video analytics pipeline.
+        - So, this leads to a lot of overhead in integrating these tools together when constructing a video analytics
+        pipeline.
     </aside>
 </section>
 <section>
@@ -187,7 +197,7 @@
             | RetinaNet (R101+FPN) | 14.3 |
             | YOLOv5 | 90.1 |
         </column>
-        <column data-markdown>
+        <column data-markdown class="fragment">
             | Object Tracker | FPS |
             | --- | ---: |
             | StrongSORT | 1.5 |
@@ -202,23 +212,35 @@
         Revisiting Query Processing in Video Database Systems. Proc. VLDB Endow. 16, 9 (May 2023),
         2289-2301. https://doi.org/10.14778/3598581.3598599
     </div>
+    <aside class="notes" data-markdown>
+        - The second challenge is the speed of ML models to process video data.
+        - With the amount of video data available, current ML models to process them are still too slow.
+        - For example, Mask-RCNN can only process 4.3 frames per second.
+        - RetinaNet can process 14.3 frames per second.
+        - YOLOv5 can process 90.1 frames per second, but is struggle with accuracy for small objects.
+        - Even worse, StrongSORT can only process 1.5 frames per second.
+        - while DeepSORT can process 3.2 frames per second.
+    </aside>
 </section>
-<section>
+<!-- <section>
     <h3>Challenge #1</h3>
     <div>ML models to process video data are still slow.</div>
     <div data-markdown>
         - Faster Hardwares are not always available.
         - Inventing new and more efficient ML models is too specific to tasks.
     </div>
-</section>
+</section> -->
 <section vcenter>
-    <p>Boarder Research Question</p>
-    <h2>How do we speed up ML-based video inference?</h2>
+    <p>Main Research Question</p>
+    <h2>How can we build an End-to-end system for efficiently process video queries?
+        <br />
+        &nbsp;
+    </h2>
 </section>
 <section>
     <h3>Background</h3>
     <h4>Video inference tasks and their bottleneck.</h4>
-    <br/>
+    <br />
     <div class="r-stack">
         <img src="assets/od-pipeline-1.svg" class="w-100%" />
         <img src="assets/od-pipeline-2.svg" class="w-100% fragment" />
@@ -227,7 +249,7 @@
 <section>
     <h3>Background</h3>
     <h4>Video inference tasks and their bottleneck.</h4>
-    <br/>
+    <br />
     <div class="r-stack">
         <img src="assets/ot-pipeline-1.svg" class="w-100%" />
         <img src="assets/ot-pipeline-2.svg" class="w-100% fragment" />
@@ -236,17 +258,16 @@
 <section>
     <h3>Prior Approaches</h3>
     <h4>Query-specific Optimization</h4>
-    <br/>
-    <br/>
+    <br />
     <div data-markdown>
         Most optimization techniques are query-specific.
         - Optimization
-          - aggregated statistics
+        - aggregated statistics
         - Optimization
-          - Original pipeline
-            - Can get different behaviors
-            - Trajectories materialization
-          - Directly getting the ml results for further analysis
+        - Original pipeline
+        - Can get different behaviors
+        - Trajectories materialization
+        - Directly getting the ml results for further analysis
     </div>
 </section>
 
@@ -255,7 +276,7 @@
         <div class="slides"></div>
     </div>
     <script>
-        (function() {
+        (function () {
             $('.reveal .slides').append(...$('section'))
 
             $('columns').each((_, columns) => {
@@ -293,8 +314,8 @@
             width: 16 * SCALE,
             height: 9 * SCALE,
             markdown: {
-    smartypants: true,
-  },
+                smartypants: true,
+            },
 
             plugins: [
                 RevealMarkdown,
