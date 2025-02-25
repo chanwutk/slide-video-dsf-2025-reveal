@@ -44,7 +44,7 @@
     <br />
     <br />
     <columns>
-        <div class="w-[62%]">
+        <div class="w-[55%]">
             <div class="fragment custom fade">
                 <h3 class="line-height-1">Motivation</h3>
                 <div class="text-color text-3xl">* Challenges with video inferencing.
@@ -236,31 +236,50 @@
         <br />
         &nbsp;
     </h2>
+    <aside class="notes" data-markdown>
+        - With these challenges in mind:
+        - How can we build an end-to-end system for efficiently process video queries?
+    </aside>
 </section>
 <section>
     <h3>Background</h3>
-    <h4>Video inference tasks and their bottleneck.</h4>
+    <h4>Video analytics tasks and their bottleneck (Detection Query).</h4>
     <br />
     <div class="r-stack">
         <img src="assets/od-pipeline-1.svg" class="w-100%" />
         <img src="assets/od-pipeline-2.svg" class="w-100% fragment" />
     </div>
+    <aside class="notes" data-markdown>
+        - To paint a better picture of what type of video analytics tasks we are dealing with.
+        - Here is a simplified pipeline for object detection query.
+        - The pipeline starts with a video file decoded as a sequence of image frames input into an object detector.
+        - The object detector then outputs a list of bounding boxes.
+        - The bounding boxes are then input into a query processor to answer the users' query.
+    </aside>
 </section>
 <section>
     <h3>Background</h3>
-    <h4>Video inference tasks and their bottleneck.</h4>
+    <h4>Video analytics tasks and their bottleneck (Tracking Query).</h4>
     <br />
     <div class="r-stack">
         <img src="assets/ot-pipeline-1.svg" class="w-100%" />
         <img src="assets/ot-pipeline-2.svg" class="w-100% fragment" />
+        <img src="assets/ot-pipeline-3.svg" class="w-100% fragment" />
     </div>
+    <aside class="notes" data-markdown>
+        - Similarly, here is a implified pipeline for object tracking query.
+        - The pipeline starts with a video file decoded as a sequence of image frames input into an object tracker.
+        - The object tracker then outputs a list of object tracks.
+        - The tracks are then input into a query processor to answer different types of queries related to the tracks.
+        - Since the bottlenecks of these pipelines are the object detector and the object tracker, we will focus on
+        optimizing these two components.
+    </aside>
 </section>
 <section>
-    <h3>Prior Approaches</h3>
-    <h4>Query-specific Optimization</h4>
+    <h3>Prior Work</h3>
     <br />
     <div data-markdown>
-        Most optimization techniques are query-specific.
+        Most of existing optimization techniques are query-specific.
         - Optimization
         - aggregated statistics
         - Optimization
@@ -314,7 +333,7 @@
             width: 16 * SCALE,
             height: 9 * SCALE,
             markdown: {
-                smartypants: true,
+                gfm: true,
             },
 
             plugins: [
