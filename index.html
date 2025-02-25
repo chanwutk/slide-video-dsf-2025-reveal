@@ -223,14 +223,6 @@
         - while DeepSORT can process 3.2 frames per second.
     </aside>
 </section>
-<!-- <section>
-    <h3>Challenge #1</h3>
-    <div>ML models to process video data are still slow.</div>
-    <div data-markdown>
-        - Faster Hardwares are not always available.
-        - Inventing new and more efficient ML models is too specific to tasks.
-    </div>
-</section> -->
 <section vcenter>
     <p>Main Research Question</p>
     <h2>How can we build an end-to-end system for efficiently processing video queries?
@@ -312,27 +304,86 @@
     </columns>
     <aside class="notes" data-markdown>
         - Most of the existing optimization techniques are query-specific.
-        - Where the final results of the pipeline are to retrieve frames or compute statistics and restricted by some error constraints.
+        - Where the final results of the pipeline are to retrieve frames or compute statistics and restricted by some
+        error constraints.
         - NoScope, BlazeIt, and TASTI make use of small proxy models to act as both video and query processor.
         - Seiden instead uses the temporal properties of videos to propagate query results between nearby video frames.
-        - However, we find that these types of optimization techniques are quite restrictive to only specific types of queries.
-        - Therefore, I would like to present my approach for building an end-to-end system for efficiently video analytics.
+        - However, we find that these types of optimization techniques are quite restrictive to only specific types of
+        queries.
     </aside>
 </section>
 <section vcenter>
     <div data-markdown>
-    ## Spatialyze
-    - An end-to-end geospatial video analytics system.
-    - Leverage spatiotemporal properties to sample only relevant frames.
+        ## Spatialyze
+        - An end-to-end geospatial video analytics system.
+        - Leverage spatiotemporal properties to sample only relevant frames.
     </div>
 
-    <br/>
+    <br />
 
     <div data-markdown class="fragment custom fade">
-    ## Ongoing Research
-    - Focus on video processing.
-    - Combine proxy models with spatiotemporal knowledge.
+        ## Ongoing Research
+        - Focus on video processing.
+        - Combine proxy models with spatiotemporal knowledge.
     </div>
+    <aside class="notes" data-markdown>
+        - Therefore, I would like to present my approach for building an end-to-end system for efficiently video
+        analytics.
+        - In the first project in this research, we built a geospatial video analytics system
+        - Where users analyze videos together with their geospatial data.
+        - And our system optimize the video processing pipeline based on the users' queries
+        - In the ongoing research, we shifted our focus to video processing pipeline.
+        - We are combining proxy models with spatiotemporal knowledge to accelerate video inference.
+    </aside>
+</section>
+<section vcenter data-markdown>
+    # Spatialyze
+</section>
+<section>
+    <h3>Issues with Spatialyze.</h3>
+    <br />
+    <br />
+    <columns>
+        <column data-markdown>
+            <textarea data-template>
+            ```pt
+            w = World()
+            rn = RoadNetwork('road')
+            w.addGeogConstructs(rn)
+            ```
+            #### Spatialyze requires user-provided geospatial metadata.
+            </textarea>
+        </column>
+        <column data-markdown>
+            <textarea data-template>
+            ```pt
+            w.addVideo(GeospatialVideo(
+                Video('v0.mp4'),
+                Camera('c0.json')))
+            w.addVideo(GeospatialVideo(
+                Video('v1.mp4'),
+                Camera('c1.json')))
+            ```
+            #### It is restricted to only geospatial video analytics.
+            </textarea>
+        </column>
+        <column data-markdown>
+            <textarea data-template>
+            ```python
+            o = w.object()
+            c = w.camera()
+            inter = w.geogConstruct(
+                type='intersection')
+            w.filter((
+                (o.type == 'car') |
+                (o.type == 'truck'))
+              & (distance(o, c) < 50)
+              & contains(inter, o))
+            ```
+            #### And, it relies on users' queries to optimize its video processing pipeline.
+            </textarea>
+        </column>
+    </columns>
 </section>
 
 <body>

@@ -47,6 +47,13 @@ h3 {
     letter-spacing: -.055em !important;
 }
 
+h4 {
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    margin-bottom: 10pt !important;
+    letter-spacing: -.055em !important;
+}
+
 columns {
     display: flex;
     flex-direction: row;
