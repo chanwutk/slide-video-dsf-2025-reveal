@@ -277,17 +277,42 @@
 </section>
 <section>
     <h3>Prior Work</h3>
+    Most of existing optimization techniques are query-specific.
+    <br />
     <br />
     <div data-markdown>
-        Most of existing optimization techniques are query-specific.
-        - Optimization
-        - aggregated statistics
-        - Optimization
-        - Original pipeline
-        - Can get different behaviors
-        - Trajectories materialization
-        - Directly getting the ml results for further analysis
+        <textarea data-template>
+        ```sql [1-7|3|7]
+        --- Retrieval Query
+        SELECT frame_id FROM UA-DETRAC
+        WHERE COUNT(TRUCK) > 0 WITH PRECISION > 0.95;
+
+        --- Aggregate Query
+        SELECT AVG(COUNT(CAR)) FROM UA-DETRAC
+        WITH CONFIDENCE > 95% AND ERROR < 0.2;
+        ```
+        </textarea>
     </div>
+    <br />
+    <columns>
+    <column data-markdown class="fragment">
+        **Retrieval Query**
+        - NoScope (Kang, 2017)
+    </column>
+    <column data-markdown class="fragment">
+        **Aggregate Query**
+        - BlazeIt (Kang, 2019)
+    </column>
+    <column data-markdown class="fragment">
+        **Both**
+        - TASTI (Kang, 2022)
+        - Seiden (Bang, 2023)
+    </column>
+    </columns>
+    <aside class="notes" data-markdown>
+        - Most of the existing optimization techniques are query-specific.
+        - Where 
+    </aside>
 </section>
 
 <body>
