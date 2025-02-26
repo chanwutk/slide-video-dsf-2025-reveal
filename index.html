@@ -400,7 +400,7 @@
     </columns>
     <aside class="notes" data-markdown>
         - Now, we have built an end-to-end geospatial video analytics system starting from
-        - Video data and geospatial data integration.
+        - Video and geospatial data integration.
         - Video Inference and optimizaiton.
         - And, Query Processing.
         - However, Spatialyze has its own limitation.
@@ -586,7 +586,7 @@
         - (Click) However, they are restricted to specific queries and, in some cases, still too expensive.
         - (Click) To address these downsides, we propose to integrate spatiotemporal knowledge with proxy models.
         - By executing the proxy model on the subregions of the image instead of the entire image,
-        we reduce the work of the oracle model instead of replace them.
+        we focus on reducing the work of the oracle model instead of replacing them.
         - This way, proxy models can be applied with wider range of video analytics tasks.
         - making it more generalizble to different types of queries.
         - And, by reducing the task size of the proxy model, we can make the proxy-model approach even cheaper.
@@ -633,7 +633,7 @@
         </column>
     </columns>
     <aside class="notes" data-markdown>
-        - In this project, we speculate these following spatiotemporal properties from video data.
+        - In this project, we observe these following spatiotemporal properties from video data.
         - That can help us speed up object tracking.
         - (Click) first, some regions in a frame are irrelevant to the object of interest.
         - (Click) second, consecutive video frames have temporal continuity.
@@ -646,13 +646,13 @@
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Observation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <div class="flex justify-center">
         <img src="assets/split.jpg" class="w-75%" />
     </div>
     <aside class="notes" data-markdown>
-        - Let's start from our first speculation ~ we want the oracle model to only operates on relevent regions from multiple video frames.
+        - Let's start from our first observation ~ we want the oracle model to only operates on relevent regions from multiple video frames.
         - The irrelevant regions are unimportant and is a waste of computation expense.
         - We can see from an example image frame here that most of the regions in the images do not contain any object of interest.
         - To formulate this as a task for the proxy model, we divide each video frame into tiles of fixed size, in this case 128x128.
@@ -660,7 +660,7 @@
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Observation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
     <div class="flex justify-between items-center w-100%">
@@ -687,7 +687,7 @@
 </section>
 <section data-auto-animate>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Observation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <div class="flex justify-center items-center w-100%">
         <div class="m-2">
@@ -745,7 +745,7 @@
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Observation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
     <div class="flex justify-between items-center w-100%">
@@ -762,7 +762,7 @@
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Observation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <div class="flex justify-around items-center w-100% snode">
         <img src="assets/frame-multiple-proxy.png" class="w-20% p-2" />
@@ -798,7 +798,7 @@
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Observation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
     <div class="flex flex-col justify-around items-center w-100%">
@@ -814,7 +814,7 @@
 </section>
 <section>
     <h3>Localize proxy model execution</h3>
-    <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <h4><span class="underline">Observation #2:</span> Consecutive video frames have temporal continuity.</h4>
     <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
     <br/>
     <br/>
@@ -824,7 +824,7 @@
         <img src="assets/temporal-continuity.png" class="w-100%" />
     </div>
     <aside class="notes" data-markdown>
-        - Moving on to the second speculation,
+        - Moving on to the second observation,
         - we recognize that consecutive video frames have temporal continuity.
         - With the proxy model, we can already save the cost for object detection;
         - however, the proxy model, even though cheap, is still not free.
@@ -837,7 +837,7 @@
 </section>
 <section>
     <h3>Localize proxy model execution</h3>
-    <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <h4><span class="underline">Observation #2:</span> Consecutive video frames have temporal continuity.</h4>
     <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
     <br/>
     <div class="flex justify-around w-100%">
@@ -864,7 +864,7 @@
         </div>
     </div>
     <aside class="notes" data-markdown>
-        - To make use of this speculation, we do not blindly execute the proxy models on all the tiles in video frames.
+        - To make use of this observation, we do not blindly execute the proxy models on all the tiles in video frames.
         - Instead, for a particular frame i+1 (which is shown on the right),
         - our pipeline only executes the proxy model on tiles identified as relevant from the frame i (which are shown in blue)
         - and their neighbor tiles (shown in orange).
@@ -873,7 +873,7 @@
 </section>
 <section>
     <h3>Localize proxy model execution</h3>
-    <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <h4><span class="underline">Observation #2:</span> Consecutive video frames have temporal continuity.</h4>
     <br/>
     <div class="flex flex-col justify-around items-center w-100%">
         <div>On average, we reduce</div>
@@ -886,7 +886,7 @@
 </section>
 <section>
     <h3>Localize proxy model execution</h3>
-    <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <h4><span class="underline">Observation #2:</span> Consecutive video frames have temporal continuity.</h4>
     <br/>
     <div class="flex flex-col justify-center items-center w-100%">
         <span>Runtime of proxy models in different sizes</span>
@@ -900,7 +900,7 @@
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Observation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <br />
     <ul>
@@ -923,7 +923,7 @@
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Observation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <br />
     <div class="flex justify-around w-100%">
@@ -945,7 +945,7 @@
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Observation #3:</span> Objects' movement patterns are region-specific.</h4>
     <div><span class="color-green">Slow Zone</span> - tracking acc. with different frame skipping size 2, 4, 8, 16</div>
     <div class="flex justify-around w-100%">
         <img src="assets/slow-2.png" class="w-25% !p-0 !m-0" />
@@ -969,7 +969,7 @@
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Observation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <img src="assets/sampling-0.png" class="w-100%" />
     <aside class="notes" data-markdown>
@@ -978,7 +978,7 @@
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Observation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <img src="assets/sampling-1.png" class="w-100%" />
     <aside class="notes" data-markdown>
