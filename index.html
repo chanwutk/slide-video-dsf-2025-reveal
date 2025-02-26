@@ -456,11 +456,12 @@
     </div>
     <aside class="notes" data-markdown>
         - First of all, let's revisit the proxy-based approach.
-        - Systems like NoScope and TASTI use small proxy ML models to act as their original oracle ML models for
-        specific queries.
-        - The core concepts of the proxy approach comes from the fact that certain kind of queries only need summarized
-        results of the oracle model.
-        - For example, in a simple object detection tasks shown
+        - For video retrieval query, the pipeline results in the frames that satisfy the users' query.
+        - In this case, the query is to find frames with trucks.
+        - Given a fixed query, we can see that there is the output from the object detector is excessive.
+        - In the end, the pipeline does not use the location of the objects at all, only the count.
+        - (Click) NoScope deployed a cheap proxy model that immitate the behavior of both the object detector and the query processor, combined.
+        - eliminating the costly step to produce object localization and skip to query answering directly.
     </aside>
 </section>
 <section>
@@ -501,12 +502,9 @@
         <div class="snode p-5"><strong>Query answer:</strong><br />1.5 Cars</div>
     </div>
     <aside class="notes" data-markdown>
-        - First of all, let's revisit the proxy-based approach.
-        - Systems like NoScope and TASTI use small proxy ML models to act as their original oracle ML models for
-        specific queries.
-        - The core concepts of the proxy approach comes from the fact that certain kind of queries only need summarized
-        results of the oracle model.
-        - For example, in a simple object detection tasks shown
+        - Similarly for video aggregate query where the pipeline compute a statistic summary of video frames.
+        - In this case the query is to find the average number of cars at a given time in the video.
+        - (Click) BlazeIt also deployed a cheap proxy model that directly calculate the average number of cars in the video.
     </aside>
 </section>
 <section>
