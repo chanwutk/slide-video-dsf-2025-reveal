@@ -565,7 +565,8 @@
         - Guide its execution with spatiotemporal knowledge.
     </div>
     <aside class="notes" data-markdown>
-        - Now that we know how proxy models work, let's discuss the upsides and downsides of proxy models.
+        - Now that we know how proxy models work, let's discuss the upsides and downsides of proxy models
+        and how can we apply them to our research.
         - (Click) Proxy models are adaptable to multiple domains and are fast to train and inference.
         - (Click) However, they are restricted to specific queries and are opaque.
         - (Click) To address these downsides, we propose to integrate spatiotemporal knowledge with proxy models.
@@ -616,6 +617,36 @@
     </columns>
     <aside class="notes" data-markdown>
     </aside>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4>Intuition #1: Not all regions in a video frame are relevant to the object of interest.</h4>
+    <br />
+    <div class="flex justify-center">
+        <img src="assets/split.jpg" class="w-75%" />
+    </div>
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4>Intuition #1: Not all regions in a video frame are relevant to the object of interest.</h4>
+    <br />
+    <div class="flex justify-between items-center w-100% fragment">
+        <img src="assets/with-car.png" class="w-200px" />
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5" style="background-color: yellow;">Proxy Model</div>
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-green">Car detected</span></div>
+    </div>
+    <br />
+    <div class="flex justify-between items-center w-100% fragment">
+        <img src="assets/without-car.png" class="w-200px" />
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5" style="background-color: yellow;">Proxy Model</div>
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-red">No car detected</span></div>
+    </div>
 </section>
 
 <body>
