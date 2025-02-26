@@ -419,7 +419,7 @@
         - (click)
         - (click)
         - We shift our focus from building an entire end-to-end system to a smaller scope of optimizing video inference
-        pipeline.
+        pipeline, focusing on video object tracking.
     </aside>
 </section>
 <section>
@@ -444,16 +444,16 @@
     <div class="flex justify-between items-center fragment" data-fragment-index="1">
         <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
         <i class="fa-solid fa-arrow-right"></i>
-        <div class="snode p-5 w-45%">
+        <div class="snode p-3 w-45%">
             <div class="flex items-center justify-between">
                 <div class="snode p-2" style="background-color: yellow;">
                     Proxy Model
                 </div>
                 &cong;
-                <div class="snode p-2 flex flex-col items-center text-3xl line-height-100%">
-                    <div>Obj. Detector</div>
+                <div class="flex flex-col items-center text-3xl line-height-100% p-0 m-0">
+                    <div class="snode p-1 m-0">Obj. Detector</div>
                     +
-                    <div>Q. Processor</div>
+                    <div class="snode p-1 m-0">Q. Processor</div>
                 </div>
             </div>
         </div>
@@ -493,16 +493,16 @@
     <div class="flex justify-between items-center fragment" data-fragment-index="1">
         <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
         <i class="fa-solid fa-arrow-right"></i>
-        <div class="snode p-5 w-45%">
+        <div class="snode p-3 w-45%">
             <div class="flex items-center justify-between">
                 <div class="snode p-2" style="background-color: yellow;">
                     Proxy Model
                 </div>
                 &cong;
-                <div class="snode p-2 flex flex-col items-center text-3xl line-height-100%">
-                    <div>Obj. Detector</div>
+                <div class="flex flex-col items-center text-3xl line-height-100% p-0 m-0">
+                    <div class="snode p-1 m-0">Obj. Detector</div>
                     +
-                    <div>Q. Processor</div>
+                    <div class="snode p-1 m-0">Q. Processor</div>
                 </div>
             </div>
         </div>
@@ -542,7 +542,78 @@
         - Note that the proxy model is not perfect and answer the query with a certain level of accuracy.
     </aside>
 </section>
-
+<section>
+    <h3>Application of Proxy Models</h3>
+    <br/>
+    <columns>
+        <column data-markdown>
+            ## Upsides
+            - Adaptable to multiple domains.
+            - Fast to train and inference.
+        </column>
+        <column data-markdown class="fragment custom fade">
+            ## Downsides
+            - Restricted to specific queries.
+            - Opaque.
+        </column>
+    </columns>
+    <br/>
+    <div data-markdown class="fragment custom fade">
+        ## Integration with Spatiotemporal Knowledge.
+        - Reduce the work of the oracle model instead of replace them.
+        - Guide its execution with spatiotemporal knowledge.
+   </div>
+    <aside class="notes" data-markdown>
+        - Now that we know how proxy models work, let's discuss the upsides and downsides of proxy models.
+        - (Click) Proxy models are adaptable to multiple domains and are fast to train and inference.
+        - (Click) However, they are restricted to specific queries and are opaque.
+        - (Click) To address these downsides, we propose to integrate spatiotemporal knowledge with proxy models.
+        - By executing the proxy model on the subregions of the image instead of the entire image,
+        we reduce the work of the oracle model instead of replace them.
+        - In addition, we can use spatiotemporal knowledge to guide the execution of the proxy model.
+    </aside>
+</section>
+<section>
+    <h3>Our Approach to accelerate video object tracking</h3>
+    <div>Recognized spatiotemporal properties of video data.</div>
+    <br/>
+    <br/>
+    <columns>
+        <column data-markdown class="fragment custom fade">
+            #### Not all regions in a video frame are relevant to the object of interest.
+        </column>
+        <column data-markdown class="fragment custom fade">
+            #### Consecutive video frames have temporal continuity.
+        </column>
+        <column data-markdown class="fragment custom fade">
+            #### Objects' movement patterns are region-specific.
+        </column>
+    </columns>
+    <br/>
+    <columns>
+        <column class="fragment">
+            <h3><i class="fa-solid fa-arrow-down"></i></h3>
+            <br/>
+            <p class="!line-height-95%">
+            Compress relevant regions from multiple video frames.
+            </p>
+        </column>
+        <column class="fragment">
+            <h3><i class="fa-solid fa-arrow-down"></i></h3>
+            <br/>
+            <p class="!line-height-95%">
+            Localize proxy model execution.
+            </p>
+        </column>
+        <column class="fragment">
+            <h3><i class="fa-solid fa-arrow-down"></i></h3>
+            <br/>
+            <p class="!line-height-95%">
+            Region-specific tracking rate.
+            </p>
+        </column>
+    </columns>
+</section>
 
 <body>
     <script src="dist/reveal.js"></script>
