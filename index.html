@@ -275,7 +275,7 @@
     <br />
     <columns>
         <column data-markdown>
-        <textarea data-template>
+            <textarea data-template>
         ```sql [1-4|4]
         --- Retrieval Query
         SELECT frame_id
@@ -285,7 +285,7 @@
         </textarea>
         </column>
         <column data-markdown>
-        <textarea data-template>
+            <textarea data-template>
         ```sql [1-4|3]
         --- Aggregate Query
 
@@ -521,11 +521,11 @@
     <br />
     <br />
     <div class="r-stack">
-    <img src="assets/proxy-pipeline-1.svg"  class="w-100%" />
-    <img src="assets/proxy-pipeline-2.svg"  class="w-100% fragment" />
-    <img src="assets/proxy-pipeline-3.svg"  class="w-100% fragment" />
-    <img src="assets/proxy-pipeline-4.svg"  class="w-100% fragment" />
-    <img src="assets/proxy-pipeline-5.svg"  class="w-100% fragment" />
+        <img src="assets/proxy-pipeline-1.svg" class="w-100%" />
+        <img src="assets/proxy-pipeline-2.svg" class="w-100% fragment" />
+        <img src="assets/proxy-pipeline-3.svg" class="w-100% fragment" />
+        <img src="assets/proxy-pipeline-4.svg" class="w-100% fragment" />
+        <img src="assets/proxy-pipeline-5.svg" class="w-100% fragment" />
     </div>
 
     <aside class="notes" data-markdown>
@@ -534,7 +534,8 @@
         - Starting from a simple video retrieval query pipeline.
         - (Click) We know that the object detector is expensive.
         - (Click) And, computing locations of all the objects is excessive.
-        - (Click) To answer the query with a proxy model, we train the proxy model using the object detector as a teacher model
+        - (Click) To answer the query with a proxy model, we train the proxy model using the object detector as a
+        teacher model
         - And, use the query as a training condition.
         - We sample a subset of video frame for the object detector and use the output as a training data.
         - Since we only execute the object detector on a subset of video frames, this process is not too expensive.
@@ -544,7 +545,7 @@
 </section>
 <section>
     <h3>Application of Proxy Models</h3>
-    <br/>
+    <br />
     <columns>
         <column data-markdown>
             ## Upsides
@@ -557,12 +558,12 @@
             - Opaque.
         </column>
     </columns>
-    <br/>
+    <br />
     <div data-markdown class="fragment custom fade">
         ## Integration with Spatiotemporal Knowledge.
         - Reduce the work of the oracle model instead of replace them.
         - Guide its execution with spatiotemporal knowledge.
-   </div>
+    </div>
     <aside class="notes" data-markdown>
         - Now that we know how proxy models work, let's discuss the upsides and downsides of proxy models.
         - (Click) Proxy models are adaptable to multiple domains and are fast to train and inference.
@@ -576,8 +577,8 @@
 <section>
     <h3>Our Approach to accelerate video object tracking</h3>
     <div>Recognized spatiotemporal properties of video data.</div>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <columns>
         <column data-markdown class="fragment custom fade">
             #### Not all regions in a video frame are relevant to the object of interest.
@@ -589,30 +590,32 @@
             #### Objects' movement patterns are region-specific.
         </column>
     </columns>
-    <br/>
+    <br />
     <columns>
         <column class="fragment">
             <h3><i class="fa-solid fa-arrow-down"></i></h3>
-            <br/>
+            <br />
             <p class="!line-height-95%">
-            Compress relevant regions from multiple video frames.
+                Compress relevant regions from multiple video frames.
             </p>
         </column>
         <column class="fragment">
             <h3><i class="fa-solid fa-arrow-down"></i></h3>
-            <br/>
+            <br />
             <p class="!line-height-95%">
-            Localize proxy model execution.
+                Localize proxy model execution.
             </p>
         </column>
         <column class="fragment">
             <h3><i class="fa-solid fa-arrow-down"></i></h3>
-            <br/>
+            <br />
             <p class="!line-height-95%">
-            Region-specific tracking rate.
+                Region-specific tracking rate.
             </p>
         </column>
     </columns>
+    <aside class="notes" data-markdown>
+    </aside>
 </section>
 
 <body>
