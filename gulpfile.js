@@ -20,6 +20,8 @@ const minify = require('gulp-clean-css')
 const connect = require('gulp-connect')
 const autoprefixer = require('gulp-autoprefixer')
 
+const browserSync = require('browser-sync').create()
+
 const root = yargs.argv.root || '.'
 const port = yargs.argv.port || 8000
 const host = yargs.argv.host || 'localhost'
@@ -189,7 +191,7 @@ gulp.task('css-themes', () => gulp.src(['./css/theme/source/*.{sass,scss}'])
         .pipe(compileSass())
         .pipe(gulp.dest('./dist/theme')))
 
-gulp.task('css-core', () => gulp.src(['css/reveal.scss'])
+gulp.task('css-core', () => gulp.src(['css/reveal.scss', 'css/reset.css'])
     .pipe(compileSass())
     .pipe(autoprefixer())
     .pipe(minify({compatibility: 'ie9'}))
@@ -293,21 +295,30 @@ gulp.task('package', gulp.series(async () => {
 
 }))
 
-gulp.task('reload', () => gulp.src(['index.html'])
-    .pipe(connect.reload()));
+// gulp.task('reload', () => gulp.src(['index.html'])
+//     .pipe(connect.reload()));
+gulp.task('reload', done => (browserSync.reload(), done()))
 
 gulp.task('serve', () => {
 
-    connect.server({
-        root: root,
-        port: port,
-        host: host,
-        livereload: true
+    // connect.server({
+    //     root: root,
+    //     port: port,
+    //     host: host,
+    //     livereload: true
+    // })
+    browserSync.init({
+        server: {
+            baseDir: root,
+        },
+        ui: false,
+        notify: false,
     })
 
     const slidesRoot = root.endsWith('/') ? root : root + '/'
     gulp.watch([
         slidesRoot + '**/*.html',
+        slidesRoot + '**/*.css',
         slidesRoot + '**/*.md',
         `!${slidesRoot}**/node_modules/**`, // ignore node_modules
     ], gulp.series('reload'))

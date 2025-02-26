@@ -1,40 +1,1062 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <title>Efficient Video Inference with Spatiotemporal Knowledge -- Chanwut (Mick) Kittivorawong</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/blackonwhite.css">
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        type="text/css" ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+    <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/stackoverflow-dark.min.css">
+</head>
+
+<section data-background-color="black"></section>
+<section vcenter data-markdown data-background-color="black">
+    <script type="text/template">
+    ## Note
+    ### I plan to eventually evolve this into my Qual. exam presentation. <!-- .element: class="!color-yellow" -->
+
+    <br/>
+
+    ## Looking for feedback on:
+    - The clarity of my Motivation / Background / Contributions / Solutions. <!-- .element: class="!color-yellow" -->
+    - Coherency of my research projects? <!-- .element: class="!color-yellow" -->
+    - Enough background? <!-- .element: class="!color-yellow" -->
+    </script>
+</section>
+<section vcenter>
+    <h2 class="text-left">Efficient Video Inference with Spatiotemporal Knowledge</h2>
+    <div class="text-color">DB Seminar | Feb 26, 2025</div>
+    <h4 class="text-color pt-3">Chanwut (Mick) Kittivorawong</h4>
+    <div class="flex justify-between pt-3 w-2/5 h-35pt">
+        <img src="assets/logo-berkeley.svg" class="h-full !m-0" />
+        <img src="assets/logo-sky.png" class="h-full !m-0 !mr-2" />
+        <img src="assets/logo-dsf.svg" class="h-full !m-0" />
+    </div>
+    <aside class="notes" data-markdown>
+        - Hi everyone
+        - My name is Mick. I am a 4th-year PhD student advised by Professor Alvin Cheung.
+        - Today, I am excited to tell you about my research on Efficient Video Inference with Spatiotemporal Knowledge.
+    </aside>
+</section>
+<section>
+    <h2>Overview</h2>
+    <br />
+    <br />
+    <columns>
+        <div class="w-[55%]">
+            <div class="fragment custom fade">
+                <h3 class="line-height-1">Motivation</h3>
+                <div class="text-color text-3xl">* Challenges with video inferencing.
+                    <br />
+                    &nbsp;
+                </div>
+            </div>
+            <br />
+            <div class="fragment custom fade">
+                <h3>Background + Prior Work</h3>
+                <div class="text-color text-3xl">* Basic video processing tasks.</div>
+                <div class="text-color text-3xl">* Prior work to accelerate video processing.</div>
+            </div>
+        </div>
+        <div>
+            <div class="fragment custom fade">
+                <h3>Spatialyze</h3>
+                <div class="text-color text-3xl">* A Geospatial Video Analytics System.</div>
+                <div class="text-color text-3xl">* Programming Model &amp; Optimization.</div>
+            </div>
+            <br />
+            <div class="fragment custom fade">
+                <h3>Ongoing&nbsp;Research</h3>
+                <div class="text-color text-3xl">* Toward more general solutions.</div>
+            </div>
+        </div>
+    </columns>
+    <aside class="notes" data-markdown>
+        - As an overview of this talk, I will
+        - First discuss, the motivation behind my research and the challenges with video inferencing.
+        - Then, I will touch on the background and prior work and give you a general idea of the scope of my research.
+        - Next, I will talk about Spatialyze, a video analytics system we built and published at VLDB.
+        - And finally, I will discuss the restriction of spatialyze and the ongoing research to make it more general.
+    </aside>
+</section>
+<section>
+    <h3>Motivation</h3>
+    <h4>Video data is abundant, and its volume keeps increasing.</h4>
+    <br />
+    <div class="flex justify-center w-[100%]">
+        <img src="assets/youtube-upload.svg" style="padding: 0; margin: 0" />
+    </div>
+    <div class="absolute left-0 bottom-0 text-[8.5pt] color-gray">Hours of video uploaded to YouTube every
+        minute as of February 2022 [Graph], YouTube, & Google, June 22, 2022. [Online]. Available:
+        https://www.statista.com/statistics/259477/hours-of-video-uploaded-to-youtube-every-minute</div>
+    <aside class="notes" data-markdown>
+        - My research is motivated by the abundance of video data.
+        - Based on the statistics from statista, in 2019, the amount of videos uploaded to youtube reached 500 hours per
+        minute.
+        - Therefore, an efficient tool for analyzing these video data is necessary.
+    </aside>
+</section>
+<section>
+    <h3>Motivation</h3>
+    <columns>
+        <column>
+            <p>Variety of video data sources.</p>
+            <img style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" src="assets/data-nuscenes.svg" />
+            <img style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" src="assets/data-i24.png" />
+            <img style="background-color: black" class="b-rd-4px p-12px w-500px !mb-4" src="assets/data-bdd.png" />
+        </column>
+        <column>
+            <p class="fragment">With real-world use cases.</p>
+            <div>
+                <div class="fragment">
+                    <img src="assets/data-ex-nuscenes.gif" class="b-rd-4px w-500px !pb-0 !mb-0" />
+                    <p class="text-xl p-0 m-0">Finding cars at an intersection.</p>
+                </div>
+                <div class="fragment">
+                    <img src="assets/data-ex-jackson.gif" class="b-rd-4px w-500px !pb-0 !mb-0" />
+                    <p class="text-xl p-0 m-0">Aggregate vehicle statistics on traffic intersections.</p>
+                </div>
+                <div class="fragment">
+                    <img src="assets/data-ex-b3d.gif" class="b-rd-4px w-500px !pb-0 !mb-0" />
+                    <p class="text-xl p-0 m-0">Building a statistical model on vehicles coordination.</p>
+                </div>
+            </div>
+        </column>
+    </columns>
+    <aside class="notes" data-markdown>
+        - In addition, to videos from youtube, there are also a variety of video data sources.
+        - For exmaple, these datasets contain videos ranging from self-driving cars, traffic cameras, and drones'
+        cameras.
+        - These videos are used in real-world use cases.
+        - where an autonomous vehicle researcher may want to find a crash scene at an intersection from a terrabytes of
+        AV footages.
+        - or, a civil engineer may want to aggregate vehicle statistics on traffic intersections.
+        - or, a traffic analyst may want to build statistical models on vehicles coordination.
+        - However, working with these videos is challenging.
+    </aside>
+</section>
+<section data-auto-animate>
+    <h3>Challenge #1</h3>
+    <h4>The overwhelming diversity of interfaces for tools for video analytics.</h4>
+    <br />
+    <columns>
+        <column>
+            <div data-markdown>
+                ### Video En-/De-coder
+                - FFmpeg
+                - OpenCV
+            </div>
+            <br />
+            <br />
+            <div data-markdown class="fragment">
+                ### Object Detector
+                - Mask-RCNN
+                - RetinaNet
+                - YOLOv5
+            </div>
+        </column>
+        <column>
+            <div data-markdown class="fragment">
+                ### Object Tracker
+                - SORT
+                - DeepSORT
+                - StrongSORT
+            </div>
+            <br />
+            <div data-markdown class="fragment">
+                ### Query Processor
+                - MobilityDB
+                - PostGIS
+            </div>
+        </column>
+    </columns>
+    <aside class="notes" data-markdown>
+        - The first challenge of video analytics is the overwhelming amount of tools and their interfaces for video
+        analytics.
+        - It is unclear how to integrate these tools together to form a video analytics pipeline.
+        - For example, ffmpeg decode a video file into a stream of bytes, while OpenCV can decode a video file into a
+        sequence of numpy arrays.
+        - All object detectors have different output format.
+        - DeepSORT and StrongSORT requires video frame input, while SORT does not.
+        - Finally, MobilityDB provides helpful utility functions for trajectories data, while PostGIS provides a more
+        standardized interface for GIS.
+        - Each tools are developed independently and is not necessarily developed for video analytics in mind.
+        - So, this leads to a lot of overhead in integrating these tools together when constructing a video analytics
+        pipeline.
+    </aside>
+</section>
+<section>
+    <h3>Challenge #2</h3>
+    <div>ML models to process video data are still slow.</div>
+    <br /> <br />
+    <columns>
+        <column data-markdown>
+            | Object Detector | FPS |
+            | --- | ---: |
+            | Mask-RCNN | 4.3 |
+            | RetinaNet (R101+FPN) | 14.3 |
+            | YOLOv5 | 90.1 |
+        </column>
+        <column data-markdown class="fragment">
+            | Object Tracker | FPS |
+            | --- | ---: |
+            | StrongSORT | 1.5 |
+            | DeepSORT | 3.2 |
+        </column>
+    </columns>
+    <div class="absolute left-0 bottom-0 text-[8pt] color-gray">Yunhao Du, Zhicheng Zhao, Yang Song, Yanyun
+        Zhao, Fei Su, Tao Gong, and Hongying Meng. 2023. StrongSORT: Make DeepSORT Great Again. IEEE
+        Transactions on Multimedia 25, (2023), 8725-8737. DOI:https://doi.org/10.1109/TMM.2023.3240881
+        <br />
+        Jaeho Bang, Gaurav Tarlok Kakkar, Pramod Chunduri, Subrata Mitra, and Joy Arulraj. 2023. Seiden:
+        Revisiting Query Processing in Video Database Systems. Proc. VLDB Endow. 16, 9 (May 2023),
+        2289-2301. https://doi.org/10.14778/3598581.3598599
+    </div>
+    <aside class="notes" data-markdown>
+        - The second challenge is the speed of ML models to process video data.
+        - With the amount of video data available, current ML models to process them are still too slow.
+        - For example, Mask-RCNN can only process 4.3 frames per second.
+        - RetinaNet can process 14.3 frames per second.
+        - YOLOv5 can process 90.1 frames per second, but is struggle with accuracy for small objects.
+        - Object trackers are even worse, StrongSORT can only process 1.5 frames per second.
+        - while DeepSORT can process 3.2 frames per second.
+    </aside>
+</section>
+<section vcenter>
+    <p>Main Research Question</p>
+    <h2>How can we build an end-to-end system for efficiently processing video queries?
+        <br />
+        &nbsp;
+    </h2>
+    <aside class="notes" data-markdown>
+        - With these challenges in mind:
+        - How can we build an end-to-end system for efficiently processing video queries?
+    </aside>
+</section>
+<section>
+    <h3>Background</h3>
+    <h4>Video analytics tasks and their bottleneck (Detection Query).</h4>
+    <br />
+    <div class="r-stack">
+        <img src="assets/od-pipeline-1.svg" class="w-100%" />
+        <img src="assets/od-pipeline-2.svg" class="w-100% fragment" />
+    </div>
+    <aside class="notes" data-markdown>
+        - To paint a better picture of what type of video analytics tasks we are dealing with.
+        - Here is a simplified pipeline for object detection query.
+        - The pipeline starts with a video file decoded as a sequence of image frames input into an object detector.
+        - The object detector then outputs a list of bounding boxes.
+        - The bounding boxes are then input into a query processor to answer the users' query.
+    </aside>
+</section>
+<section>
+    <h3>Background</h3>
+    <h4>Video analytics tasks and their bottleneck (Tracking Query).</h4>
+    <br />
+    <div class="r-stack">
+        <img src="assets/ot-pipeline-1.svg" class="w-100%" />
+        <img src="assets/ot-pipeline-2.svg" class="w-100% fragment" />
+        <img src="assets/ot-pipeline-3.svg" class="w-100% fragment" />
+    </div>
+    <aside class="notes" data-markdown>
+        - Similarly, here is a simplified pipeline for object tracking query.
+        - The object tracker instead outputs a list of object tracks.
+        - (click) The tracks are then input into a query processor to answer different types of queries related to the tracks.
+        - (click) Since the bottlenecks of these pipelines are the object detector and the object tracker, we will focus on
+        optimizing these two components.
+    </aside>
+</section>
+<section>
+    <h3>Prior Work</h3>
+    Most of existing optimization techniques are query-specific.
+    <br />
+    <br />
+    <br />
+    <columns>
+        <column data-markdown>
+            <textarea data-template>
+        ```sql [1-4|4]
+        --- Retrieval Query
+        SELECT frame_id
+        FROM UA-DETRAC
+        WHERE COUNT(BUS) > 0;
+        ```
+        </textarea>
+        </column>
+        <column data-markdown>
+            <textarea data-template>
+        ```sql [1-4|3]
+        --- Aggregate Query
+
+        SELECT AVG(COUNT(CAR))
+        FROM UA-DETRAC;
+        ```
+        </textarea>
+        </column>
+    </columns>
+    <br />
+    <columns>
+        <column data-markdown>
+            **Retrieval Query**
+
+            NoScope (Kang, 2017)
+        </column>
+        <column data-markdown>
+            **Aggregate Query**
+
+            BlazeIt (Kang, 2019)
+        </column>
+        <column data-markdown>
+            **Support Both**
+
+            TASTI (Kang, 2022)
+            Seiden (Bang, 2023)
+        </column>
+    </columns>
+    <aside class="notes" data-markdown>
+        - Most of the existing optimization techniques are query-specific.
+        - Where the final results of the pipeline are to
+        - (Click) retrieve frames or
+        - (Click) compute statistics.
+        - NoScope, BlazeIt, and TASTI make use of small proxy models to act as both video and query processor.
+        - Seiden instead uses the temporal properties of videos to propagate query results between nearby video frames.
+        - However, we find that these types of optimization techniques are quite restrictive to only specific types of
+        queries.
+    </aside>
+</section>
+<section vcenter>
+    <div data-markdown>
+        ## Spatialyze
+        - An end-to-end geospatial video analytics system.
+        - Leverage spatiotemporal properties to sample only relevant frames.
+    </div>
+
+    <br />
+
+    <div data-markdown class="fragment custom fade">
+        ## Ongoing Research
+        - Focus on video processing.
+        - Combine proxy models with spatiotemporal knowledge.
+    </div>
+    <aside class="notes" data-markdown>
+        - Therefore, I would like to present my approach for building an end-to-end system for efficient video
+        analytics.
+        - In the first project in this research, we built a geospatial video analytics system
+        - Where users analyze videos together with their geospatial data.
+        - And our system optimize the video processing pipeline based on the users' queries
+        - (Click) In the ongoing research, we shifted our focus to video processing pipeline.
+        - We are combining proxy models with spatiotemporal knowledge to accelerate video inference.
+    </aside>
+</section>
+<section vcenter data-markdown>
+    # Spatialyze
+</section>
+<section>
+    <h3>Issues with Spatialyze.</h3>
+    <br />
+    <br />
+    <br />
+    <columns>
+        <column data-markdown class="fragment fade-in-then-semi-out">
+            <textarea data-template>
+            ```pt
+            w = World()
+            w.addGeogConstructs(RoadNetwork('./road'))
+            w.addVideo(GeospatialVideo(
+                Video('v0.mp4'), Camera('c0.json')))
+            w.addVideo(GeospatialVideo(
+                Video('v1.mp4'), Camera('c1.json')))
+            ```
+            #### Restricted to only geospatial video analytics.
+            </textarea>
+        </column>
+        <column data-markdown class="fragment fade-in">
+            <textarea data-template>
+            ```pt
+            o = w.object()
+            c = w.camera()
+            inter = w.geogConstruct(type='intersection')
+            w.filter((o.type == 'car')
+              & (distance(o, c) < 50)
+              & contains(inter, o))
+            ```
+            #### Relies on users' queries to optimize its video processing pipeline.
+            </textarea>
+        </column>
+    </columns>
+    <aside class="notes" data-markdown>
+        - Now, we have built an end-to-end geospatial video analytics system starting from
+        - Video and geospatial data integration.
+        - Video Inference and optimizaiton.
+        - And, Query Processing.
+        - However, Spatialyze has its own limitation.
+        - (Click) First, it is restricted to only geospatial video analytics.
+        - Without geospatial metadaata, the "world" data model does not make much sense.
+        - (Click) Second, most of its optimization techniques heavily relies on users' geospatial queries.
+        - Which is not ideal for general video analytics.
+    </aside>
+</section>
+<section vcenter>
+    <columns>
+        <column>
+            <h4>Video inference is <mark class="fragment custom hl-red" data-fragment-index="1">slow</mark>.</h4>
+        </column>
+        <column>
+            <h4>Prior solutions come with significant trade-off of being <mark class="fragment custom hl-yellow"
+                    data-fragment-index="2">query-restricted</mark> or <mark class="fragment custom hl-yellow"
+                    data-fragment-index="2">domain-restricted</mark>.</h4>
+        </column>
+    </columns>
+    <br />
+    <h3>We integrate <mark class="fragment custom hl-green" data-fragment-index="3">spatiotemporal knowledge</mark>
+        and <mark class="fragment custom hl-green" data-fragment-index="3">proxy model approach</mark> together to allow
+        both domain- and query-flexibility in video inference acceleration.
+    </h3>
+    <aside class="notes" data-markdown>
+        - Given this issues mainly on the optimization restriction, we revise our research statement as follow.
+        - (click)
+        - (click)
+        - (click)
+        - We shift our focus from building an entire end-to-end system to a smaller scope of optimizing video inference
+        pipeline, focusing on video object tracking.
+    </aside>
+</section>
+<section>
+    <h3>Prior Work: Proxy-based approach.</h3>
+    <br />
+    <h4 class="underline">Basic Video Retrieval Query</h4>
+    <div class="flex justify-between items-center">
+        <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5">Object<br />Detector</div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div>
+            <strong>Query Processor</strong>
+            <pre class="!p-0 !m-0"><code class="language-sql">WHERE COUNT(BUS) > 0</code></pre>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5"><strong>Query answer:</strong><br />Frame
+            49-77</div>
+    </div>
+    <br />
+    <h4 class="fragment underline" data-fragment-index="1">NoScope (Kang, 2017)</h4>
+    <div class="flex justify-between items-center fragment" data-fragment-index="1">
+        <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-3 w-45%">
+            <div class="flex items-center justify-between">
+                <div class="snode p-2" style="background-color: yellow;">
+                    Proxy Model
+                </div>
+                <div class="text-60pt">&cong;</div>
+                <div class="flex flex-col items-center text-3xl line-height-100% p-0 m-0">
+                    <div class="snode p-1 m-0">Obj. Detector</div>
+                    +
+                    <div class="snode p-1 m-0">Q. Processor</div>
+                </div>
+            </div>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5"><strong>Query answer:</strong><br />Frame
+            50-75</div>
+    </div>
+    <aside class="notes" data-markdown>
+        - First of all, let's revisit the proxy-based approach.
+        - For video retrieval query, the pipeline results in the frames that satisfy the users' query.
+        - In this case, the query is to find frames with buses.
+        - Given a fixed query, we can see that the output from the object detector is excessive.
+        - In the end, the pipeline does not use the location of the objects at all, only the count.
+        - (Click) NoScope's solution was to deploy a cheap proxy model that immitate the behavior of both the object detector and the
+        query processor, combined.
+        - eliminating the costly step to produce object localization and skip to query answering directly.
+    </aside>
+</section>
+<section>
+    <h3>Prior Work: Proxy-based approach.</h3>
+    <br />
+    <h4 class="underline">Basic Video Aggregate Query</h4>
+    <div class="flex justify-between items-center">
+        <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5">Object<br />Detector</div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div>
+            <strong>Query Processor</strong>
+            <pre class="!p-0 !m-0"><code class="language-sql">SELECT AVG(COUNT(CAR))</code></pre>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5"><strong>Query answer:</strong><br />1.2 Cars</div>
+    </div>
+    <br />
+    <h4 class="fragment underline" data-fragment-index="1">BlazeIt (Kang, 2019)</h4>
+    <div class="flex justify-between items-center fragment" data-fragment-index="1">
+        <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-3 w-45%">
+            <div class="flex items-center justify-between">
+                <div class="snode p-2" style="background-color: yellow;">
+                    Proxy Model
+                </div>
+                <div class="text-60pt">&cong;</div>
+                <div class="flex flex-col items-center text-3xl line-height-100% p-0 m-0">
+                    <div class="snode p-1 m-0">Obj. Detector</div>
+                    +
+                    <div class="snode p-1 m-0">Q. Processor</div>
+                </div>
+            </div>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+        <div class="snode p-5"><strong>Query answer:</strong><br />1.25 Cars</div>
+    </div>
+    <aside class="notes" data-markdown>
+        - Similarly for video aggregate query
+        - the pipeline only computes a statistic summary of video frames.
+        - In this case the query is to find the average number of cars at a given time in the video.
+        - (Click) BlazeIt also deployed a cheap proxy model that directly calculate the average number of cars in the
+        video.
+    </aside>
+</section>
+<section>
+    <h3>How does a proxy model work?</h3>
+    <br />
+    <br />
+    <div class="r-stack">
+        <img src="assets/proxy-pipeline-1.svg" class="w-100%" />
+        <img src="assets/proxy-pipeline-2.svg" class="w-100% fragment" />
+        <img src="assets/proxy-pipeline-3.svg" class="w-100% fragment" />
+        <img src="assets/proxy-pipeline-4.svg" class="w-100% fragment" />
+        <img src="assets/proxy-pipeline-5.svg" class="w-100% fragment" />
+    </div>
+
+    <aside class="notes" data-markdown>
+        - A proxy model is a cheap model that immitate the behavior of its teacher model for a specific task.
+        - I will explain how proxy models work through an example.
+        - Starting from a simple video retrieval query pipeline.
+        - (Click) We know that the object detector is expensive.
+        - (Click) And, computing locations of all the objects is excessive.
+        - (Click) To answer the query with a proxy model, we train the proxy model using the object detector as a
+        teacher model
+        - And, use the query as a training condition.
+        - We sample a subset of video frame for the object detector and use the output as a training data.
+        - Since we only execute the object detector on a subset of video frames, this process is not too expensive.
+        - (Click) Once trained, we can input all video frames into the cheap proxy model to get the query answer.
+        - Note that the proxy model is not perfect and answer the query with a certain level of accuracy.
+    </aside>
+</section>
+<section>
+    <h3>Application of Proxy Models</h3>
+    <br />
+    <columns>
+        <column data-markdown class="fragment custom fade">
+            ## Upsides
+            - Adaptable to multiple domains.
+            - Fast to train and inference.
+        </column>
+        <column data-markdown class="fragment custom fade">
+            ## Downsides
+            - Restricted to specific queries.
+            - Still expensive?
+        </column>
+    </columns>
+    <br />
+    <div data-markdown class="fragment custom fade">
+        ## Integration with Spatiotemporal Knowledge.
+        - Reduce the work of the oracle model instead of replace them.
+        - Can be applied with wider range of video analytics tasks.
+    </div>
+    <aside class="notes" data-markdown>
+        - Now that we know how proxy models work, let's discuss the upsides and downsides of proxy models
+        and how can we apply them to our research.
+        - (Click) Proxy models are adaptable to multiple domains and are fast to train and inference.
+        so unlike Spatialyze, ......
+        - (Click) However, they are restricted to specific queries and, in some cases, still too expensive.
+        - (Click) To address these downsides, we propose to integrate spatiotemporal knowledge with proxy models.
+        - By executing the proxy model on the subregions of the image instead of the entire image,
+        we focus on reducing the work of the oracle model instead of replacing them.
+        - This way, proxy models can be applied with wider range of video analytics tasks.
+        - making it more generalizble to different types of queries.
+        - And, by reducing the task size of the proxy model, we can make the proxy-model approach even cheaper.
+    </aside>
+</section>
+<section>
+    <h3>My approach to accelerate object tracking</h3>
+    <div>Recognized spatiotemporal properties of video data.</div>
+    <br />
+    <br />
+    <columns>
+        <column data-markdown class="fragment custom fade">
+            #### Some regions in a frame are irrelevant to the object of interest.
+        </column>
+        <column data-markdown class="fragment custom fade">
+            #### Consecutive video frames have temporal continuity.
+        </column>
+        <column data-markdown class="fragment custom fade">
+            #### Objects' movement patterns are region-specific.
+        </column>
+    </columns>
+    <br />
+    <columns>
+        <column class="fragment">
+            <h3><i class="fa-solid fa-arrow-down"></i></h3>
+            <br />
+            <p class="!line-height-95%">
+                Compress relevant regions from multiple video frames.
+            </p>
+        </column>
+        <column class="fragment">
+            <h3><i class="fa-solid fa-arrow-down"></i></h3>
+            <br />
+            <p class="!line-height-95%">
+                Localize proxy model execution.
+            </p>
+        </column>
+        <column class="fragment">
+            <h3><i class="fa-solid fa-arrow-down"></i></h3>
+            <br />
+            <p class="!line-height-95%">
+                Region-specific tracking rate.
+            </p>
+        </column>
+    </columns>
+    <aside class="notes" data-markdown>
+        - In this project, we recognize these following intuition regarding spatiotemporal properties from video data.
+        - That can help us speed up object tracking.
+        - (Click) first, some regions in a frame are irrelevant to the object of interest.
+        - (Click) second, consecutive video frames have temporal continuity.
+        - (Click) third, objects' movement patterns are region-specific.
+        - Based on these properties, we propose 3 operations of the proxy model application.
+        - (Click) First, we use a proxy model to help us determine how to compress relevent regions of video frames.
+        - (Click) Second, based on the temporal continuity, we localize the proxy model execution to only the relevant regions, instead of blindly apply the proxy models to the whole video frame.
+        - (Click) Finally, we adjust the tracking rate of the proxy model based on the region of the video frame.
+    </aside>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
+    <div class="flex justify-center">
+        <img src="assets/split.jpg" class="w-75%" />
+    </div>
+    <aside class="notes" data-markdown>
+        - Let's start from our first intuition ~ we want the oracle model to only operates on relevent regions from multiple video frames.
+        - The irrelevant regions are unimportant and is a waste of computation expense.
+        - We can see from an example image frame here that most of the regions in the images do not contain any object of interest.
+        - To formulate this as a task for the proxy model, we divide each video frame into tiles of fixed size, in this case 128x128.
+    </aside>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
+    <br />
+    <div class="flex justify-between items-center w-100%">
+        <img src="assets/with-car.png" class="w-200px" />
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5 bg-yellow">Proxy Model</div>
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-green">Car detected</span>
+        </div>
+    </div>
+    <div class="flex justify-between items-center w-100% fragment">
+        <img src="assets/without-car.png" class="w-200px" />
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5 bg-yellow">Proxy Model</div>
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-red">No car detected</span>
+        </div>
+    </div>
+    <aside class="notes" data-markdown>
+        - Then, the proxy model classifies whether a tile contain an object of interest or not.
+        - (Click) In this project we use the same method of training the proxy model as described earlier.
+        - We sampled a subset of video frames, run object detection on those frames, and use the results to train the proxy model.
+    </aside>
+</section>
+<section data-auto-animate>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
+    <div class="flex justify-center items-center w-100%">
+        <div class="m-2">
+            CNN (stride=2, kernel=2x2x64x64)
+            <div class="flex justify-center items-center snode bg-black">
+                <div class="flex items-center snode m-1 h-421px" style="background-color: white;">
+                    128 x 128
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-301px">
+                    64 x 64
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-215px">
+                    32 x 32
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-153px">
+                    16 x 16
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-109px">
+                    8 x 8
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-78px">
+                    4 x 4
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-56px">
+                    2 x 2
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-40px">
+                    1 x 1
+                </div>
+            </div>
+        </div>
+        <div class="m-2">
+            Linear
+            <div class="flex justify-center items-center snode bg-black">
+                <div class="flex items-center snode m-1 bg-white h-301px">
+                    64
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-301px">
+                    64
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-40px">
+                    1
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside class="notes" data-markdown>
+        - The proxy model we use here is a simple CNN model with a stride of 2 followed by fully connected layers.
+        - So the layer starts from the tile size and halfen each layer until reaches 1.
+        - The archetecture is simple and adaptable to various tile sizes.
+        - We experimented with off-the-shelf CNN models and found that this simple model provides sufficient accuracy for our task.
+        - ResNet or EfficientNet are trained for large image classification with the tolerable to noises and categories.
+        - but Since the task for this proxy model is so specific, the generalizibility provided by the off-the-shelf CNNs is unnecessary.
+    </aside>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
+    <br />
+    <div class="flex justify-between items-center w-100%">
+        <img src="assets/frame.png" class="w-20%" />
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5 bg-yellow">Proxy Model</div>
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <img src="assets/frame-proxy.png" class="w-40%" />
+    </div>
+    <aside class="notes" data-markdown>
+        - After the proxy model is trained, it labels each tile in the video frame as either relevant or irrelevant to the object of interest.
+        - as shown as 2 orange and green polyo-minos in the image to the right.
+    </aside>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
+    <div class="flex justify-around items-center w-100% snode">
+        <img src="assets/frame-multiple-proxy.png" class="w-20% p-2" />
+        <div class="flex flex-col items-center justify-center">
+            <div class="text-xl">Compress</div>
+            <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        </div>
+        <img src="assets/frame-packed.png" class="w-20% p-2" />
+        <div class="flex flex-col items-center justify-center fragment" data-fragment-index="1">
+            <div class="text-xl">Detect</div>
+            <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        </div>
+        <img src="assets/frame-packed-detected.png" class="w-20% p-2 fragment" data-fragment-index="1" />
+    </div>
+    <div class="flex justify-center items-center fragment" data-fragment-index="2">
+        <h3 class="p-2 !pb-1"><i class="fa-solid fa-arrow-down"></i></h3>
+        <div class="text-xl">Decompress</div>
+    </div>
+    <div class="flex justify-center items-center fragment" data-fragment-index="2">
+        <img src="assets/018.jpg" class="w-28% !m-0" />
+        <img src="assets/019.jpg" class="w-28% !m-0" />
+        <img src="assets/020.jpg" class="w-28% !m-0" />
+        <img src="assets/021.jpg" class="w-28% !m-0" />
+        <img src="assets/022.jpg" class="w-28% !m-0" />
+        <img src="assets/023.jpg" class="w-28% !m-0" />
+    </div>
+    <aside class="notes" data-markdown>
+        - Once we recognize the relevant polyominoes from multiple image frames,
+        - we compress them by bin-packing these polyominoes into one single image
+        - (click) to be an input to a SINGLE execution of a fine-tuned oracle object detector.
+        - (click) In the end we decompress the output of the oracle object detector to the original video frames.
+    </aside>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
+    <br />
+    <div class="flex flex-col justify-around items-center w-100%">
+        <div>On average, we compress</div>
+        <h1 class="!color-red !font-size-300px">9.54</h1>
+        <div class="text-align-center">video fromes into a <span class="font-bold underline">SINGLE</span><br />object
+            detection execution</div>
+    </div>
+    <aside class="notes" data-markdown>
+        - on average we compress 9.54 video frames into a single object detection execution.
+        - this means that we can achieve upto almost 10x speedup in object detection.
+    </aside>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
+    <br/>
+    <br/>
+    Frame 1-4
+    <div class="flex justify-center items-center w-100%">
+        <!-- <img src="assets/proxy-runtime.svg" class="w-75%" /> -->
+        <img src="assets/temporal-continuity.png" class="w-100%" />
+    </div>
+    <aside class="notes" data-markdown>
+        - Moving on to the second intuition,
+        - we recognize that consecutive video frames have temporal continuity.
+        - With the proxy model, we can already save the cost for object detection;
+        - however, the proxy model, even though cheap, is still not free.
+        
+        - With the recognized constraints regarding temporal continuity in videos,
+        - it is unnecessary to always execute the proxy model on the whole image frame
+        - because objects localizations are likely to be similar between consecutive frames.
+        - As you can see from this 4 consecutive frames, this cars move only gradually.
+    </aside>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
+    <br/>
+    <div class="flex justify-around w-100%">
+        <div>
+            <div class="!line-height-0">Frame i</div>
+            <img src="assets/frame-i0-proxy.png" class="w-420px" />
+            <div class="!line-height-100% text-4xl">
+            Identified relevant pixel<br/>tiles (in <span class="text-blue">blue</span>) at frame i.
+            </div>
+        </div>
+        <div class="!mt-23">
+            <div class="text-xl">Next</div>
+            <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        </div>
+        <div>
+            <div class="!line-height-0">Frame i<span class="text-green">+1</span></div>
+            <img src="assets/frame-i1-proxy.png" class="w-420px" />
+            <div class="!line-height-100% text-4xl">
+                Only need to identify<br/>
+                the same patch (in <span class="text-blue">blue</span>)<br/>
+                and their neighbors (in<br/>
+                <span class="text-orange">orange</span>) at frame i+1.
+            </div>
+        </div>
+    </div>
+    <aside class="notes" data-markdown>
+        - To make use of this intuition, we do not blindly execute the proxy models on all the tiles in video frames.
+        - Instead, for a particular frame i+1 (which is shown on the right),
+        - our pipeline only executes the proxy model on tiles identified as relevant from the frame i (which are shown in blue)
+        - and their neighbor tiles (shown in orange).
+        - This way, we greatly save on the proxy model execution cost.
+    </aside>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <br/>
+    <div class="flex flex-col justify-around items-center w-100%">
+        <div>On average, we reduce</div>
+        <h1 class="!color-red !font-size-300px">73%</h1>
+        <div class="text-align-center">of proxy model executions.</div>
+    </div>
+    <aside class="notes" data-markdown>
+        - On average, we reduce 73% of proxy model execution in our evaluation.
+    </aside>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <br/>
+    <div class="flex flex-col justify-center items-center w-100%">
+        <span>Runtime of proxy models in different sizes</span>
+        <img src="assets/proxy-runtime.svg" class="w-75%" />
+    </div>
+    <aside class="notes" data-markdown>
+        - We have also evaluated the runtime of the proxy model execution.
+        - Even though, the runtime of the proxy model in our pipeline currently is insignificant,
+        - this optimization can open up the possibility of applying a more computationally expensive proxy model.
+    </aside>
+</section>
+<section>
+    <h3>Region-specific tracking rate</h3>
+    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <br />
+    <br />
+    <ul>
+        <li>
+     Prior optimization techniques reduce tracking reates at the frame level.
+        Only capitalizing on <span class="!color-red">temporal</span> properties of videos.
+        </li>
+        <li>
+
+     Our optimization technique also leverages <span class="!color-green">spatial</span> prooperties of videos.
+        </li>
+    </ul>
+    <aside class="notes" data-markdown>
+        - Lastly, we recognize that objects' movement patterns are region-specific.
+        - Prior optimization techniques reduces tracking rates at the frame level,
+        - So, objects in a video frame are either all included in or all excluded from inputs to the tracker,
+        - They are missing out on the spatial properties of videos.
+        - In this project, we propose tracking rate reduction based on the region of the video frame.
+    </aside>
+</section>
+<section>
+    <h3>Region-specific tracking rate</h3>
+    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <br />
+    <br />
+    <div class="flex justify-around w-100%">
+        <img src="assets/frame-zones.png" class="w-50% !p-0 !m-0" />
+        <div class="pl-10">
+            <h4 class="!color-red">Speed Zone</h4>
+            Vehicles drive through the intersection at a high speed.
+            <br/>
+            <br/>
+            <h4 class="!color-green">Slow Zone</h4>
+            Vehicles slow down when turning.
+        </div>
+    </div>
+    <aside class="notes" data-markdown>
+        - Given an example using the same video, we can observe that vehicles in the red region move faster than the  vehicle in the green region.
+        - We categorize these regions into speed zone where vehicles drive through the intersection at a high speed
+        - and Slow zone where vehicles slow down when turning.
+    </aside>
+</section>
+<section>
+    <h3>Region-specific tracking rate</h3>
+    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <div><span class="color-green">Slow Zone</span> - tracking acc. with different frame skipping size 2, 4, 8, 16</div>
+    <div class="flex justify-around w-100%">
+        <img src="assets/slow-2.png" class="w-25% !p-0 !m-0" />
+        <img src="assets/slow-4.png" class="w-25% !p-0 !m-0" />
+        <img src="assets/slow-8.png" class="w-25% !p-0 !m-0" />
+        <img src="assets/slow-16.png" class="w-25% !p-0 !m-0" />
+    </div>
+    <div><span class="color-red">Speed Zone</span> - tracking acc. with different frame skipping size 2, 4, 8, 16</div>
+    <div class="flex justify-around w-100%">
+        <img src="assets/speed-2.png" class="w-25% !p-0 !m-0" />
+        <img src="assets/speed-4.png" class="w-25% !p-0 !m-0" />
+        <img src="assets/speed-8.png" class="w-25% !p-0 !m-0" />
+        <img src="assets/speed-16.png" class="w-25% !p-0 !m-0" />
+    </div>
+    <aside class="notes" data-markdown>
+        - Based on our benchmark, we can see that the tracking accuracy of the speed zone
+        - falls off more quickly as the frame sampling rate is reduced.
+        - This is because the tracking algorithm cannot associate objects between frames 
+        - if their positions are too far apart.
+    </aside>
+</section>
+<section>
+    <h3>Region-specific tracking rate</h3>
+    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <br />
+    <img src="assets/sampling-0.png" class="w-100%" />
+    <aside class="notes" data-markdown>
+        - With this learned knowledge, our pipeline samples tiles from the speed zone more frequently than from the slow zone.
+    </aside>
+</section>
+<section>
+    <h3>Region-specific tracking rate</h3>
+    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <br />
+    <img src="assets/sampling-1.png" class="w-100%" />
+    <aside class="notes" data-markdown>
+        - For an example, all the regions in the left of the image will be included in the
+        - object detector and object tracker more frequently than the region in the sharp-turn on the right.
+        - With this, we can save execution cost on both the object detector and tracker.
+    </aside>
+</section>
+<section>
+    <h3>Summary of Evaluation</h3>
+    <br />
+    <br />
+    <ul>
+        <li>
+            <strong>Compress relevant regions from <span class="color-red">9.54</span> frames</strong> into one single object detection execution, on average.
+        </li>
+        <li>
+            <strong>Localize proxy model exeucution</strong> to reduce <span class="color-red font-bold">73%</span> of proxy model executions, on average.
+        </li>
+        <li>
+            <strong>Region-specific tracking rate</strong> helps further reduce the object detection and tracking cost.
+            <br/>
+            <span class="color-gray">We still do not have a complege evaluation as a more extensive benchmark regarding rutime-accuracy trade-off is needed.</span>
+        </li>
+    </ul>
+    <aside class="notes" data-markdown>
+        - To summarize our evaluation
+    </aside>
+</section>
+<section vcenter>
+    <columns>
+        <column>
+            <h4 class="!color-gray">Video inference is slow.</h4>
+        </column>
+        <column>
+            <h4 class="!color-gray">Prior solutions come with significant trade-off of being query-restricted or domain-restricted.</h4>
+        </column>
+    </columns>
+    <br />
+    <h3>We integrate <mark class="bg-green">spatiotemporal knowledge</mark>
+        and <mark class="bg-green">proxy model approach</mark> together to allow
+        both domain- and query-flexibility in video inference acceleration.
+    </h3>
+    <aside class="notes" data-markdown>
+        - To summarize what I do in my ongoing research, 
+    </aside>
+</section>
+
+<body>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+        (function () {
+            const SCALE = 85;
+            $('body').prepend($('<div class="reveal">').append($('<div class="slides">')))
+            $('.reveal .slides').append(...$('section'))
+
+            $('columns').each((_, columns) => {
+                const nColumns = $(columns).children().length
+                const width = (100 - ((nColumns - 1) * 2)) / nColumns
+                const style = `width: ${width}%; margin: 0; padding: 0;`
+                $(columns).children().filter('column')
+                    .each((_, column) => column.setAttribute('style', style))
+            })
+            Reveal.initialize({
+                width: 16 * SCALE,
+                height: 9 * SCALE,
+                markdown: { gfm: true },
+                plugins: [
+                    RevealMarkdown,
+                    RevealHighlight,
+                    RevealNotes,
+                ],
+            })
+        })()
+    </script>
+</body>
+
 </html>

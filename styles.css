@@ -1,0 +1,130 @@
+:root {
+    --header-text-color: #002676;
+}
+
+section {
+    display: none;
+}
+
+.slides {
+    display: flex !important;
+    justify-content: center;
+}
+
+.slide-number {
+    background-color: transparent !important;
+}
+
+.slide-number-a {
+    color: black;
+    font-size: 25px;
+    opacity: 0.4;
+}
+
+section {
+    width: 95% !important;
+}
+
+section:not([vcenter]) {
+    height: 95% !important;
+    max-height: 95% !important;
+}
+
+section:not([hcenter]) {
+    text-align: left;
+}
+
+.text-color, .ctext {
+    color: var(--header-text-color);
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    margin-bottom: 10pt !important;
+    letter-spacing: -.055em !important;
+}
+
+h4 {
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    margin-bottom: 10pt !important;
+    letter-spacing: -.055em !important;
+}
+
+columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.fragment.fade {
+    opacity: 0.1;
+}
+
+.fragment.fade.visible {
+    opacity: 1;
+}
+
+.fragment.hl-red {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.fragment.hl-red.visible {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
+.fragment.hl-green {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.fragment.hl-green.visible {
+    background-color: rgba(0, 255, 0, 0.7);
+}
+
+.fragment.hl-yellow {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.fragment.hl-yellow.visible {
+    background-color: rgba(255, 255, 0, 0.7);
+}
+
+section columns * {
+    margin-top: 0 !important;
+}
+
+/* html {
+    background-color: black !important;
+}
+
+body {
+    background-color: white !important;
+    border-radius: 16px !important;
+} */
+
+table, td, th {
+    border: 2px solid black;
+}
+
+th {
+    background-color: black;
+    color: white;
+}
+
+code table, code td, code th {
+    border: none;
+}
+
+pre.code-wrapper:not(.o-width) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+}
+
+.snode {
+    border: 4px black solid !important;
+    border-radius: 8px !important;
+}
