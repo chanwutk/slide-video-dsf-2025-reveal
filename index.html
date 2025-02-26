@@ -582,7 +582,7 @@
     <br />
     <columns>
         <column data-markdown class="fragment custom fade">
-            #### Not all regions in a video frame are relevant to the object of interest.
+            #### Some regions in a frame are irrelevant to the object of interest.
         </column>
         <column data-markdown class="fragment custom fade">
             #### Consecutive video frames have temporal continuity.
@@ -620,7 +620,8 @@
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4>Intuition #1: Not all regions in a video frame are relevant to the object of interest.</h4>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
     <br />
     <div class="flex justify-center">
         <img src="assets/split.jpg" class="w-75%" />
@@ -630,7 +631,8 @@
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4>Intuition #1: Not all regions in a video frame are relevant to the object of interest.</h4>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
     <br />
     <div class="flex justify-between items-center w-100% fragment">
         <img src="assets/with-car.png" class="w-200px" />
@@ -652,7 +654,8 @@
 </section>
 <section data-auto-animate>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4>Intuition #1: Not all regions in a video frame are relevant to the object of interest.</h4>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
     <br />
     <div class="flex justify-center items-center w-100%">
         <div class="m-2">
@@ -702,7 +705,8 @@
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4>Intuition #1: Not all regions in a video frame are relevant to the object of interest.</h4>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
     <br />
     <br />
     <div class="flex justify-between items-center w-100%">
@@ -712,6 +716,61 @@
         <h3><i class="fa-solid fa-arrow-right"></i></h3>
         <img src="assets/frame-proxy.png" class="w-40%" />
     </div>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
+    <div class="flex justify-around items-center w-100% snode">
+        <img src="assets/frame-multiple-proxy.png" class="w-20% p-4" />
+        <div class="flex flex-col items-center justify-center">
+            <div class="text-xl">Compress</div>
+            <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        </div>
+        <img src="assets/frame-packed.png" class="w-20% p-4" />
+        <div class="flex flex-col items-center justify-center">
+            <div class="text-xl">Detect</div>
+            <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        </div>
+        <img src="assets/frame-packed-detected.png" class="w-20% p-4" />
+    </div>
+    <div class="flex justify-center items-center">
+        <h3 class="p-3 pb-3"><i class="fa-solid fa-arrow-down"></i></h3>
+        <div class="text-xl">Decompress</div>
+    </div>
+    <div class="flex justify-center items-center">
+        <img src="assets/018.jpg" class="w-25% !m-0" />
+        <img src="assets/019.jpg" class="w-25% !m-0" />
+        <img src="assets/020.jpg" class="w-25% !m-0" />
+        <img src="assets/021.jpg" class="w-25% !m-0" />
+        <img src="assets/022.jpg" class="w-25% !m-0" />
+        <img src="assets/023.jpg" class="w-25% !m-0" />
+    </div>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    </h4>
+    <br />
+    <br />
+    <div class="flex flex-col justify-around items-center w-100%">
+        <div>On average, we compress</div>
+        <br />
+        <h1 class="!color-red">9.54</h1>
+        <br />
+        <div class="text-align-center">video fromes into a <span class="font-bold underline">SINGLE</span><br />object
+            detection execution</div>
+    </div>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <br />
+    <div class="flex justify-center items-center w-100%">
+        <img src="assets/frames.png" class="w-50%" />
+    </div>
+    <aside class="notes" data-markdown>
+    </aside>
 </section>
 
 <body>
