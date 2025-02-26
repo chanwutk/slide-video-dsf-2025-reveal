@@ -272,20 +272,29 @@
     Most of existing optimization techniques are query-specific.
     <br />
     <br />
-    <div data-markdown>
+    <br />
+    <columns>
+        <column data-markdown>
         <textarea data-template>
-        ```sql [1-9|4|7]
+        ```sql [1-4|4]
         --- Retrieval Query
         SELECT frame_id
         FROM UA-DETRAC
         WHERE COUNT(BUS) > 0;
-
+        ```
+        </textarea>
+        </column>
+        <column data-markdown>
+        <textarea data-template>
+        ```sql [1-4|3]
         --- Aggregate Query
+
         SELECT AVG(COUNT(CAR))
         FROM UA-DETRAC;
         ```
         </textarea>
-    </div>
+        </column>
+    </columns>
     <br />
     <columns>
         <column data-markdown>
@@ -302,7 +311,6 @@
             **Support Both**
 
             TASTI (Kang, 2022)
-
             Seiden (Bang, 2023)
         </column>
     </columns>
@@ -535,6 +543,7 @@
     </aside>
 </section>
 
+
 <body>
     <script src="dist/reveal.js"></script>
     <script src="plugin/notes/notes.js"></script>
@@ -548,7 +557,7 @@
 
             $('columns').each((_, columns) => {
                 const nColumns = $(columns).children().length
-                const width = (100 - ((nColumns - 2) * 2)) / nColumns
+                const width = (100 - ((nColumns - 1) * 2)) / nColumns
                 const style = `width: ${width}%; margin: 0; padding: 0;`
                 $(columns).children().filter('column')
                     .each((_, column) => column.setAttribute('style', style))

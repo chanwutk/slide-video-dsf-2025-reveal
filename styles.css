@@ -96,14 +96,14 @@ section columns * {
     margin-top: 0 !important;
 }
 
-/* html {
+html {
     background-color: black !important;
 }
 
 body {
     background-color: white !important;
     border-radius: 16px !important;
-} */
+}
 
 table, td, th {
     border: 2px solid black;
