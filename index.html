@@ -752,12 +752,9 @@
     <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
-    <br />
     <div class="flex flex-col justify-around items-center w-100%">
         <div>On average, we compress</div>
-        <br />
-        <h1 class="!color-red">9.54</h1>
-        <br />
+        <h1 class="!color-red !font-size-300px">9.54</h1>
         <div class="text-align-center">video fromes into a <span class="font-bold underline">SINGLE</span><br />object
             detection execution</div>
     </div>
@@ -765,12 +762,55 @@
 <section>
     <h3>Localize proxy model execution</h3>
     <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
-    <br />
+    <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
+    <br/>
     <div class="flex justify-center items-center w-100%">
-        <img src="assets/frames.png" class="w-50%" />
+        <img src="assets/proxy-runtime.svg" class="w-75%" />
     </div>
     <aside class="notes" data-markdown>
     </aside>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
+    <br/>
+    <div class="flex justify-around w-100%">
+        <div>
+            <div class="!line-height-0">Frame i</div>
+            <img src="assets/frame-i0-proxy.png" class="w-420px" />
+            <div class="!line-height-100% text-4xl">
+            Identified relevant pixel<br/>tiles (in <span class="text-blue">blue</span>) at frame i.
+            </div>
+        </div>
+        <div class="!mt-23">
+            <div class="text-xl">Next</div>
+            <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        </div>
+        <div>
+            <div class="!line-height-0">Frame i<span class="text-green">+1</span></div>
+            <img src="assets/frame-i1-proxy.png" class="w-420px" />
+            <div class="!line-height-100% text-4xl">
+                Only need to identify<br/>
+                the same patch (in <span class="text-blue">blue</span>)<br/>
+                and their neighbors (in<br/>
+                <span class="text-orange">orange</span>) at frame i+1.
+            </div>
+        </div>
+    </div>
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <br/>
+    <br />
+    <div class="flex flex-col justify-around items-center w-100%">
+        <div>On average, we reduce</div>
+        <h1 class="!color-red !font-size-300px">73%</h1>
+        <div class="text-align-center">of proxy model executions.</div>
+    </div>
 </section>
 
 <body>
