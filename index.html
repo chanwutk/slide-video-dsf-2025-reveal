@@ -104,7 +104,7 @@
         minute as of February 2022 [Graph], YouTube, & Google, June 22, 2022. [Online]. Available:
         https://www.statista.com/statistics/259477/hours-of-video-uploaded-to-youtube-every-minute</div>
     <aside class="notes" data-markdown>
-        - The first motivation of my research is the abundance of video data.
+        - My research is motivated by the abundance of video data.
         - Based on the statistics from statista, in 2019, the amount of videos uploaded to youtube reached 500 hours per
         minute.
         - Therefore, an efficient tool for analyzing these video data is necessary.
@@ -145,7 +145,7 @@
         - where an autonomous vehicle researcher may want to find a crash scene at an intersection from a terrabytes of
         AV footages.
         - or, a civil engineer may want to aggregate vehicle statistics on traffic intersections.
-        - or, a traffic engineer may want to build statistical models on vehicles coordination.
+        - or, a traffic analyst may want to build statistical models on vehicles coordination.
         - However, working with these videos is challenging.
     </aside>
 </section>
@@ -232,7 +232,7 @@
         - For example, Mask-RCNN can only process 4.3 frames per second.
         - RetinaNet can process 14.3 frames per second.
         - YOLOv5 can process 90.1 frames per second, but is struggle with accuracy for small objects.
-        - Even worse, StrongSORT can only process 1.5 frames per second.
+        - Object trackers are even worse, StrongSORT can only process 1.5 frames per second.
         - while DeepSORT can process 3.2 frames per second.
     </aside>
 </section>
@@ -273,11 +273,10 @@
         <img src="assets/ot-pipeline-3.svg" class="w-100% fragment" />
     </div>
     <aside class="notes" data-markdown>
-        - Similarly, here is a implified pipeline for object tracking query.
-        - The pipeline starts with a video file decoded as a sequence of image frames input into an object tracker.
-        - The object tracker then outputs a list of object tracks.
-        - The tracks are then input into a query processor to answer different types of queries related to the tracks.
-        - Since the bottlenecks of these pipelines are the object detector and the object tracker, we will focus on
+        - Similarly, here is a simplified pipeline for object tracking query.
+        - The object tracker instead outputs a list of object tracks.
+        - (click) The tracks are then input into a query processor to answer different types of queries related to the tracks.
+        - (click) Since the bottlenecks of these pipelines are the object detector and the object tracker, we will focus on
         optimizing these two components.
     </aside>
 </section>
@@ -405,7 +404,7 @@
         - Video Inference and optimizaiton.
         - And, Query Processing.
         - However, Spatialyze has its own limitation.
-        - (Click) First, restricted to only geospatial video analytics.
+        - (Click) First, it is restricted to only geospatial video analytics.
         - Without geospatial metadaata, the "world" data model does not make much sense.
         - (Click) Second, most of its optimization techniques heavily relies on users' geospatial queries.
         - Which is not ideal for general video analytics.
@@ -463,7 +462,7 @@
                 <div class="snode p-2" style="background-color: yellow;">
                     Proxy Model
                 </div>
-                &cong;
+                <div class="text-60pt">&cong;</div>
                 <div class="flex flex-col items-center text-3xl line-height-100% p-0 m-0">
                     <div class="snode p-1 m-0">Obj. Detector</div>
                     +
@@ -478,10 +477,10 @@
     <aside class="notes" data-markdown>
         - First of all, let's revisit the proxy-based approach.
         - For video retrieval query, the pipeline results in the frames that satisfy the users' query.
-        - In this case, the query is to find frames with trucks.
-        - Given a fixed query, we can see that there is the output from the object detector is excessive.
+        - In this case, the query is to find frames with buses.
+        - Given a fixed query, we can see that the output from the object detector is excessive.
         - In the end, the pipeline does not use the location of the objects at all, only the count.
-        - (Click) NoScope deployed a cheap proxy model that immitate the behavior of both the object detector and the
+        - (Click) NoScope's solution was to deploy a cheap proxy model that immitate the behavior of both the object detector and the
         query processor, combined.
         - eliminating the costly step to produce object localization and skip to query answering directly.
     </aside>
@@ -512,7 +511,7 @@
                 <div class="snode p-2" style="background-color: yellow;">
                     Proxy Model
                 </div>
-                &cong;
+                <div class="text-60pt">&cong;</div>
                 <div class="flex flex-col items-center text-3xl line-height-100% p-0 m-0">
                     <div class="snode p-1 m-0">Obj. Detector</div>
                     +
@@ -524,7 +523,8 @@
         <div class="snode p-5"><strong>Query answer:</strong><br />1.25 Cars</div>
     </div>
     <aside class="notes" data-markdown>
-        - Similarly for video aggregate query where the pipeline compute a statistic summary of video frames.
+        - Similarly for video aggregate query
+        - the pipeline only computes a statistic summary of video frames.
         - In this case the query is to find the average number of cars at a given time in the video.
         - (Click) BlazeIt also deployed a cheap proxy model that directly calculate the average number of cars in the
         video.
@@ -561,7 +561,7 @@
     <h3>Application of Proxy Models</h3>
     <br />
     <columns>
-        <column data-markdown>
+        <column data-markdown class="fragment custom fade">
             ## Upsides
             - Adaptable to multiple domains.
             - Fast to train and inference.
@@ -569,7 +569,7 @@
         <column data-markdown class="fragment custom fade">
             ## Downsides
             - Restricted to specific queries.
-            - Opaque.
+            - Still expensive?
         </column>
     </columns>
     <br />
@@ -582,11 +582,14 @@
         - Now that we know how proxy models work, let's discuss the upsides and downsides of proxy models
         and how can we apply them to our research.
         - (Click) Proxy models are adaptable to multiple domains and are fast to train and inference.
-        - (Click) However, they are restricted to specific queries and are opaque.
+        so unlike Spatialyze, ......
+        - (Click) However, they are restricted to specific queries and, in some cases, still too expensive.
         - (Click) To address these downsides, we propose to integrate spatiotemporal knowledge with proxy models.
         - By executing the proxy model on the subregions of the image instead of the entire image,
         we reduce the work of the oracle model instead of replace them.
         - This way, proxy models can be applied with wider range of video analytics tasks.
+        - making it more generalizble to different types of queries.
+        - And, by reducing the task size of the proxy model, we can make the proxy-model approach even cheaper.
     </aside>
 </section>
 <section>
@@ -630,14 +633,14 @@
         </column>
     </columns>
     <aside class="notes" data-markdown>
-        - In this project, we recognize these following speculations from video data.
+        - In this project, we speculate these following spatiotemporal properties from video data.
         - That can help us speed up object tracking.
         - (Click) first, some regions in a frame are irrelevant to the object of interest.
         - (Click) second, consecutive video frames have temporal continuity.
         - (Click) third, objects' movement patterns are region-specific.
-        - Based on these properties, we propose different operations of the proxy model application.
+        - Based on these properties, we propose 3 operations of the proxy model application.
         - (Click) First, we use a proxy model to help us determine how to compress relevent regions of video frames.
-        - (Click) Second, we apply the spatiotemporal knowledge of video data to localize the proxy model execution.
+        - (Click) Second, based on the temporal continuity, we localize the proxy model execution to only the relevant regions, instead of blindly apply the proxy models to the whole video frame.
         - (Click) Finally, we adjust the tracking rate of the proxy model based on the region of the video frame.
     </aside>
 </section>
@@ -645,11 +648,12 @@
     <h3>Compress relevant regions from multiple frames</h3>
     <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
-    <br />
     <div class="flex justify-center">
         <img src="assets/split.jpg" class="w-75%" />
     </div>
     <aside class="notes" data-markdown>
+        - Let's start from our first speculation ~ we want the oracle model to only operates on relevent regions from multiple video frames.
+        - The irrelevant regions are unimportant and is a waste of computation expense.
         - We can see from an example image frame here that most of the regions in the images do not contain any object of interest.
         - To formulate this as a task for the proxy model, we divide each video frame into tiles of fixed size, in this case 128x128.
     </aside>
@@ -667,7 +671,6 @@
         <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-green">Car detected</span>
         </div>
     </div>
-    <br />
     <div class="flex justify-between items-center w-100% fragment">
         <img src="assets/without-car.png" class="w-200px" />
         <h3><i class="fa-solid fa-arrow-right"></i></h3>
@@ -686,7 +689,6 @@
     <h3>Compress relevant regions from multiple frames</h3>
     <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
-    <br />
     <div class="flex justify-center items-center w-100%">
         <div class="m-2">
             CNN (stride=2, kernel=2x2x64x64)
@@ -733,16 +735,18 @@
         </div>
     </div>
     <aside class="notes" data-markdown>
-        - The proxy model is a simple CNN model with a stride of 2 followed by fully connected layers.
-        - We experiment of of-the-shelf CNN models and found that this simple model provides sufficient accuracy for our task.
-        - Since the task for this proxy model is so specific, the generalizibility provided by the off-the-shelf CNNs is unnecessary.
+        - The proxy model we use here is a simple CNN model with a stride of 2 followed by fully connected layers.
+        - So the layer starts from the tile size and halfen each layer until reaches 1.
+        - The archetecture is simple and adaptable to various tile sizes.
+        - We experimented with off-the-shelf CNN models and found that this simple model provides sufficient accuracy for our task.
+        - ResNet or EfficientNet are trained for large image classification with the tolerable to noises and categories.
+        - but Since the task for this proxy model is so specific, the generalizibility provided by the off-the-shelf CNNs is unnecessary.
     </aside>
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
     <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
-    <br />
     <br />
     <div class="flex justify-between items-center w-100%">
         <img src="assets/frame.png" class="w-20%" />
@@ -753,7 +757,7 @@
     </div>
     <aside class="notes" data-markdown>
         - After the proxy model is trained, it labels each tile in the video frame as either relevant or irrelevant to the object of interest.
-        - as shown as 2 polyominos in the image to the right.
+        - as shown as 2 orange and green polyo-minos in the image to the right.
     </aside>
 </section>
 <section>
@@ -761,20 +765,20 @@
     <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <div class="flex justify-around items-center w-100% snode">
-        <img src="assets/frame-multiple-proxy.png" class="w-20% p-4" />
+        <img src="assets/frame-multiple-proxy.png" class="w-20% p-2" />
         <div class="flex flex-col items-center justify-center">
             <div class="text-xl">Compress</div>
             <h3><i class="fa-solid fa-arrow-right"></i></h3>
         </div>
-        <img src="assets/frame-packed.png" class="w-20% p-4" />
+        <img src="assets/frame-packed.png" class="w-20% p-2" />
         <div class="flex flex-col items-center justify-center fragment" data-fragment-index="1">
             <div class="text-xl">Detect</div>
             <h3><i class="fa-solid fa-arrow-right"></i></h3>
         </div>
-        <img src="assets/frame-packed-detected.png" class="w-20% p-4 fragment" data-fragment-index="1" />
+        <img src="assets/frame-packed-detected.png" class="w-20% p-2 fragment" data-fragment-index="1" />
     </div>
     <div class="flex justify-center items-center fragment" data-fragment-index="2">
-        <h3 class="p-3 pb-3"><i class="fa-solid fa-arrow-down"></i></h3>
+        <h3 class="p-2 !pb-1"><i class="fa-solid fa-arrow-down"></i></h3>
         <div class="text-xl">Decompress</div>
     </div>
     <div class="flex justify-center items-center fragment" data-fragment-index="2">
@@ -820,8 +824,9 @@
         <img src="assets/temporal-continuity.png" class="w-100%" />
     </div>
     <aside class="notes" data-markdown>
-        - Moving on to the second speculation, we recognize that consecutive video frames have temporal continuity.
-        - With the proxy model, we can save the cost for object detection;
+        - Moving on to the second speculation,
+        - we recognize that consecutive video frames have temporal continuity.
+        - With the proxy model, we can already save the cost for object detection;
         - however, the proxy model, even though cheap, is still not free.
         
         - With the recognized constraints regarding temporal continuity in videos,
@@ -859,6 +864,7 @@
         </div>
     </div>
     <aside class="notes" data-markdown>
+        - To make use of this speculation, we do not blindly execute the proxy models on all the tiles in video frames.
         - Instead, for a particular frame i+1 (which is shown on the right),
         - our pipeline only executes the proxy model on tiles identified as relevant from the frame i (which are shown in blue)
         - and their neighbor tiles (shown in orange).
@@ -869,7 +875,6 @@
     <h3>Localize proxy model execution</h3>
     <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
     <br/>
-    <br />
     <div class="flex flex-col justify-around items-center w-100%">
         <div>On average, we reduce</div>
         <h1 class="!color-red !font-size-300px">73%</h1>
@@ -877,6 +882,20 @@
     </div>
     <aside class="notes" data-markdown>
         - On average, we reduce 73% of proxy model execution in our evaluation.
+    </aside>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <br/>
+    <div class="flex flex-col justify-center items-center w-100%">
+        <span>Runtime of proxy models in different sizes</span>
+        <img src="assets/proxy-runtime.svg" class="w-75%" />
+    </div>
+    <aside class="notes" data-markdown>
+        - We have also evaluated the runtime of the proxy model execution.
+        - Even though, the runtime of the proxy model in our pipeline currently is insignificant,
+        - this optimization can open up the possibility of applying a more computationally expensive proxy model.
     </aside>
 </section>
 <section>
@@ -896,8 +915,8 @@
     </ul>
     <aside class="notes" data-markdown>
         - Lastly, we recognize that objects' movement patterns are region-specific.
-        - While prior optimization techniques reduces tracking rates at the frame level,
-        - Therefore, objects in a video frame are either all included in or all excluded from inputs to the tracker,
+        - Prior optimization techniques reduces tracking rates at the frame level,
+        - So, objects in a video frame are either all included in or all excluded from inputs to the tracker,
         - They are missing out on the spatial properties of videos.
         - In this project, we propose tracking rate reduction based on the region of the video frame.
     </aside>
@@ -920,14 +939,13 @@
     </div>
     <aside class="notes" data-markdown>
         - Given an example using the same video, we can observe that vehicles in the red region move faster than the  vehicle in the green region.
-        - We categorize these regions into speed zone where vehicles drive through the intersection at a high speed and slow zone where vehicles slow down when turning.
+        - We categorize these regions into speed zone where vehicles drive through the intersection at a high speed
         - and Slow zone where vehicles slow down when turning.
     </aside>
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
     <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
-    <br />
     <div><span class="color-green">Slow Zone</span> - tracking acc. with different frame skipping size 2, 4, 8, 16</div>
     <div class="flex justify-around w-100%">
         <img src="assets/slow-2.png" class="w-25% !p-0 !m-0" />
@@ -944,7 +962,7 @@
     </div>
     <aside class="notes" data-markdown>
         - Based on our benchmark, we can see that the tracking accuracy of the speed zone
-        - falls off more quickly as the sampling rate is reduced.
+        - falls off more quickly as the frame sampling rate is reduced.
         - This is because the tracking algorithm cannot associate objects between frames 
         - if their positions are too far apart.
     </aside>
@@ -986,9 +1004,9 @@
             <span class="color-gray">We still do not have a complege evaluation as a more extensive benchmark regarding rutime-accuracy trade-off is needed.</span>
         </li>
     </ul>
-    <section>
+    <aside class="notes" data-markdown>
         - To summarize our evaluation
-    </section>
+    </aside>
 </section>
 <section vcenter>
     <columns>
