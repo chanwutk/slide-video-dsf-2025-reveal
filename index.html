@@ -562,7 +562,7 @@
     <div data-markdown class="fragment custom fade">
         ## Integration with Spatiotemporal Knowledge.
         - Reduce the work of the oracle model instead of replace them.
-        - Guide its execution with spatiotemporal knowledge.
+        - Can be applied with wider range of video analytics tasks.
     </div>
     <aside class="notes" data-markdown>
         - Now that we know how proxy models work, let's discuss the upsides and downsides of proxy models
@@ -572,11 +572,11 @@
         - (Click) To address these downsides, we propose to integrate spatiotemporal knowledge with proxy models.
         - By executing the proxy model on the subregions of the image instead of the entire image,
         we reduce the work of the oracle model instead of replace them.
-        - In addition, we can use spatiotemporal knowledge to guide the execution of the proxy model.
+        - This way, proxy models can be applied with wider range of video analytics tasks.
     </aside>
 </section>
 <section>
-    <h3>Our Approach to accelerate video object tracking</h3>
+    <h3>My approach to accelerate object tracking</h3>
     <div>Recognized spatiotemporal properties of video data.</div>
     <br />
     <br />
@@ -616,25 +616,36 @@
         </column>
     </columns>
     <aside class="notes" data-markdown>
+        - In this project, we recognize these following speculations from video data.
+        - That can help us speed up object tracking.
+        - (Click) first, some regions in a frame are irrelevant to the object of interest.
+        - (Click) second, consecutive video frames have temporal continuity.
+        - (Click) third, objects' movement patterns are region-specific.
+        - Based on these properties, we propose different operations of the proxy model application.
+        - (Click) First, we use a proxy model to help us determine how to compress relevent regions of video frames.
+        - (Click) Second, we apply the spatiotemporal knowledge of video data to localize the proxy model execution.
+        - (Click) Finally, we adjust the tracking rate of the proxy model based on the region of the video frame.
     </aside>
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
     <div class="flex justify-center">
         <img src="assets/split.jpg" class="w-75%" />
     </div>
     <aside class="notes" data-markdown>
+        - We can see from an example image frame here that most of the regions in the images do not contain any object of interest.
+        - To formulate this as a task for the proxy model, we divide each video frame into tiles of fixed size, in this case 128x128.
     </aside>
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
-    <div class="flex justify-between items-center w-100% fragment">
+    <div class="flex justify-between items-center w-100%">
         <img src="assets/with-car.png" class="w-200px" />
         <h3><i class="fa-solid fa-arrow-right"></i></h3>
         <div class="snode p-5 bg-yellow">Proxy Model</div>
@@ -651,19 +662,24 @@
         <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-red">No car detected</span>
         </div>
     </div>
+    <aside class="notes" data-markdown>
+        - Then, the proxy model classifies whether a tile contain an object of interest or not.
+        - (Click) In this project we use the same method of training the proxy model as described earlier.
+        - We sampled a subset of video frames, run object detection on those frames, and use the results to train the proxy model.
+    </aside>
 </section>
 <section data-auto-animate>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
     <div class="flex justify-center items-center w-100%">
         <div class="m-2">
-            CNN (stride=2, kernel=2x2x64)
+            CNN (stride=2, kernel=2x2x64x64)
             <div class="flex justify-center items-center snode bg-black">
-                <!-- <div class="flex items-center snode m-1 h-421px" style="background-color: white;">
+                <div class="flex items-center snode m-1 h-421px" style="background-color: white;">
                     128 x 128
-                </div> -->
+                </div>
                 <div class="flex items-center snode m-1 bg-white h-301px">
                     64 x 64
                 </div>
@@ -702,10 +718,15 @@
             </div>
         </div>
     </div>
+    <aside class="notes" data-markdown>
+        - The proxy model is a simple CNN model with a stride of 2 followed by fully connected layers.
+        - We experiment of of-the-shelf CNN models and found that this simple model provides sufficient accuracy for our task.
+        - Since the task for this proxy model is so specific, the generalizibility provided by the off-the-shelf CNNs is unnecessary.
+    </aside>
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
     <br />
@@ -716,10 +737,14 @@
         <h3><i class="fa-solid fa-arrow-right"></i></h3>
         <img src="assets/frame-proxy.png" class="w-40%" />
     </div>
+    <aside class="notes" data-markdown>
+        - After the proxy model is trained, it labels each tile in the video frame as either relevant or irrelevant to the object of interest.
+        - as shown as 2 polyominos in the image to the right.
+    </aside>
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <div class="flex justify-around items-center w-100% snode">
         <img src="assets/frame-multiple-proxy.png" class="w-20% p-4" />
@@ -728,28 +753,34 @@
             <h3><i class="fa-solid fa-arrow-right"></i></h3>
         </div>
         <img src="assets/frame-packed.png" class="w-20% p-4" />
-        <div class="flex flex-col items-center justify-center">
+        <div class="flex flex-col items-center justify-center fragment" data-fragment-index="1">
             <div class="text-xl">Detect</div>
             <h3><i class="fa-solid fa-arrow-right"></i></h3>
         </div>
-        <img src="assets/frame-packed-detected.png" class="w-20% p-4" />
+        <img src="assets/frame-packed-detected.png" class="w-20% p-4 fragment" data-fragment-index="1" />
     </div>
-    <div class="flex justify-center items-center">
+    <div class="flex justify-center items-center fragment" data-fragment-index="2">
         <h3 class="p-3 pb-3"><i class="fa-solid fa-arrow-down"></i></h3>
         <div class="text-xl">Decompress</div>
     </div>
-    <div class="flex justify-center items-center">
-        <img src="assets/018.jpg" class="w-25% !m-0" />
-        <img src="assets/019.jpg" class="w-25% !m-0" />
-        <img src="assets/020.jpg" class="w-25% !m-0" />
-        <img src="assets/021.jpg" class="w-25% !m-0" />
-        <img src="assets/022.jpg" class="w-25% !m-0" />
-        <img src="assets/023.jpg" class="w-25% !m-0" />
+    <div class="flex justify-center items-center fragment" data-fragment-index="2">
+        <img src="assets/018.jpg" class="w-28% !m-0" />
+        <img src="assets/019.jpg" class="w-28% !m-0" />
+        <img src="assets/020.jpg" class="w-28% !m-0" />
+        <img src="assets/021.jpg" class="w-28% !m-0" />
+        <img src="assets/022.jpg" class="w-28% !m-0" />
+        <img src="assets/023.jpg" class="w-28% !m-0" />
     </div>
+    <aside class="notes" data-markdown>
+        - Once we recognize the relevant polyominoes from multiple image frames,
+        - we compress them by bin-packing these polyominoes into one single image
+        - (click) to be an input to a SINGLE execution of a fine-tuned oracle object detector.
+        - (click) In the end we decompress the output of the oracle object detector to the original video frames.
+    </aside>
 </section>
 <section>
     <h3>Compress relevant regions from multiple frames</h3>
-    <h4><span class="underline">Intuition #1:</span> Some regions in a frame are irrelevant to the object of interest.
+    <h4><span class="underline">Speculation #1:</span> Some regions in a frame are irrelevant to the object of interest.
     </h4>
     <br />
     <div class="flex flex-col justify-around items-center w-100%">
@@ -758,21 +789,36 @@
         <div class="text-align-center">video fromes into a <span class="font-bold underline">SINGLE</span><br />object
             detection execution</div>
     </div>
-</section>
-<section>
-    <h3>Localize proxy model execution</h3>
-    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
-    <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
-    <br/>
-    <div class="flex justify-center items-center w-100%">
-        <img src="assets/proxy-runtime.svg" class="w-75%" />
-    </div>
     <aside class="notes" data-markdown>
+        - on average we compress 9.54 video frames into a single object detection execution.
+        - this means that we can achieve upto almost 10x speedup in object detection.
     </aside>
 </section>
 <section>
     <h3>Localize proxy model execution</h3>
-    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
+    <br/>
+    <br/>
+    Frame 1-4
+    <div class="flex justify-center items-center w-100%">
+        <!-- <img src="assets/proxy-runtime.svg" class="w-75%" /> -->
+        <img src="assets/temporal-continuity.png" class="w-100%" />
+    </div>
+    <aside class="notes" data-markdown>
+        - Moving on to the second speculation, we recognize that consecutive video frames have temporal continuity.
+        - With the proxy model, we can save the cost for object detection;
+        - however, the proxy model, even though cheap, is still not free.
+        
+        - With the recognized constraints regarding temporal continuity in videos,
+        - it is unnecessary to always execute the proxy model on the whole image frame
+        - because objects localizations are likely to be similar between consecutive frames.
+        - As you can see from this 4 consecutive frames, this cars move only gradually.
+    </aside>
+</section>
+<section>
+    <h3>Localize proxy model execution</h3>
+    <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
     <div>Proxy models are <span class="color-green">cheap</span> to execute, but they are <span class="color-red">not free</span>.</div>
     <br/>
     <div class="flex justify-around w-100%">
@@ -799,11 +845,15 @@
         </div>
     </div>
     <aside class="notes" data-markdown>
+        - Instead, for a particular frame i+1 (which is shown on the right),
+        - our pipeline only executes the proxy model on tiles identified as relevant from the frame i (which are shown in blue)
+        - and their neighbor tiles (shown in orange).
+        - This way, we greatly save on the proxy model execution cost.
     </aside>
 </section>
 <section>
     <h3>Localize proxy model execution</h3>
-    <h4><span class="underline">Intuition #2:</span> Consecutive video frames have temporal continuity.</h4>
+    <h4><span class="underline">Speculation #2:</span> Consecutive video frames have temporal continuity.</h4>
     <br/>
     <br />
     <div class="flex flex-col justify-around items-center w-100%">
@@ -812,11 +862,12 @@
         <div class="text-align-center">of proxy model executions.</div>
     </div>
     <aside class="notes" data-markdown>
+        - On average, we reduce 73% of proxy model execution in our evaluation.
     </aside>
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <br />
     <ul>
@@ -830,11 +881,16 @@
         </li>
     </ul>
     <aside class="notes" data-markdown>
+        - Lastly, we recognize that objects' movement patterns are region-specific.
+        - While prior optimization techniques reduces tracking rates at the frame level,
+        - Therefore, objects in a video frame are either all included in or all excluded from inputs to the tracker,
+        - They are missing out on the spatial properties of videos.
+        - In this project, we propose tracking rate reduction based on the region of the video frame.
     </aside>
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <br />
     <div class="flex justify-around w-100%">
@@ -849,11 +905,14 @@
         </div>
     </div>
     <aside class="notes" data-markdown>
+        - Given an example using the same video, we can observe that vehicles in the red region move faster than the  vehicle in the green region.
+        - We categorize these regions into speed zone where vehicles drive through the intersection at a high speed and slow zone where vehicles slow down when turning.
+        - and Slow zone where vehicles slow down when turning.
     </aside>
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <div><span class="color-green">Slow Zone</span> - tracking acc. with different frame skipping size 2, 4, 8, 16</div>
     <div class="flex justify-around w-100%">
@@ -870,22 +929,30 @@
         <img src="assets/speed-16.png" class="w-25% !p-0 !m-0" />
     </div>
     <aside class="notes" data-markdown>
+        - Based on our benchmark, we can see that the tracking accuracy of the speed zone
+        - falls off more quickly as the sampling rate is reduced.
+        - This is because the tracking algorithm cannot associate objects between frames 
+        - if their positions are too far apart.
     </aside>
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <img src="assets/sampling-0.png" class="w-100%" />
     <aside class="notes" data-markdown>
+        - With this learned knowledge, our pipeline samples tiles from the speed zone more frequently than from the slow zone.
     </aside>
 </section>
 <section>
     <h3>Region-specific tracking rate</h3>
-    <h4><span class="underline">Intuition #3:</span> Objects' movement patterns are region-specific.</h4>
+    <h4><span class="underline">Speculation #3:</span> Objects' movement patterns are region-specific.</h4>
     <br />
     <img src="assets/sampling-1.png" class="w-100%" />
     <aside class="notes" data-markdown>
+        - For an example, all the regions in the left of the image will be included in the
+        - object detector and object tracker more frequently than the region in the sharp-turn on the right.
+        - With this, we can save execution cost on both the object detector and tracker.
     </aside>
 </section>
 <section>
@@ -905,6 +972,9 @@
             <span class="color-gray">We still do not have a complege evaluation as a more extensive benchmark regarding rutime-accuracy trade-off is needed.</span>
         </li>
     </ul>
+    <section>
+        - To summarize our evaluation
+    </section>
 </section>
 <section vcenter>
     <columns>
@@ -912,9 +982,7 @@
             <h4 class="!color-gray">Video inference is slow.</h4>
         </column>
         <column>
-            <h4 class="!color-gray">Prior solutions come with significant trade-off of being
-                    query-restricted or
-                    domain-restricted.</h4>
+            <h4 class="!color-gray">Prior solutions come with significant trade-off of being query-restricted or domain-restricted.</h4>
         </column>
     </columns>
     <br />

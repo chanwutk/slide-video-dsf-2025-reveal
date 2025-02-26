@@ -22,12 +22,12 @@ section {
 }
 
 section {
-    width: 94% !important;
+    width: 95% !important;
 }
 
 section:not([vcenter]) {
-    height: 94% !important;
-    max-height: 94% !important;
+    height: 95% !important;
+    max-height: 95% !important;
 }
 
 section:not([hcenter]) {
