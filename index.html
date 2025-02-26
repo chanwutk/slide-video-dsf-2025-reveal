@@ -18,7 +18,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="stylesheet" href="plugin/diagram/revealjs-diagram.css">
 
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="plugin/highlight/stackoverflow-dark.min.css">
@@ -279,7 +278,7 @@
         --- Retrieval Query
         SELECT frame_id
         FROM UA-DETRAC
-        WHERE COUNT(TRUCK) > 0;
+        WHERE COUNT(BUS) > 0;
 
         --- Aggregate Query
         SELECT AVG(COUNT(CAR))
@@ -418,7 +417,7 @@
 <section>
     <h3>Prior Work: Proxy-based approach.</h3>
     <br />
-    <h4>Basic Video Retrieval Query</h4>
+    <h4 class="underline">Basic Video Retrieval Query</h4>
     <div class="flex justify-between items-center">
         <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
         <i class="fa-solid fa-arrow-right"></i>
@@ -426,14 +425,14 @@
         <i class="fa-solid fa-arrow-right"></i>
         <div>
             <strong>Query Processor</strong>
-            <pre class="!p-0 !m-0"><code class="language-sql">WHERE COUNT(TRUCK) > 0</code></pre>
+            <pre class="!p-0 !m-0"><code class="language-sql">WHERE COUNT(BUS) > 0</code></pre>
         </div>
         <i class="fa-solid fa-arrow-right"></i>
         <div class="snode p-5"><strong>Query answer:</strong><br />Frame
             49-77</div>
     </div>
     <br />
-    <h4 class="fragment" data-fragment-index="1">NoScope (Kang, 2017)</h4>
+    <h4 class="fragment underline" data-fragment-index="1">NoScope (Kang, 2017)</h4>
     <div class="flex justify-between items-center fragment" data-fragment-index="1">
         <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
         <i class="fa-solid fa-arrow-right"></i>
@@ -460,14 +459,15 @@
         - In this case, the query is to find frames with trucks.
         - Given a fixed query, we can see that there is the output from the object detector is excessive.
         - In the end, the pipeline does not use the location of the objects at all, only the count.
-        - (Click) NoScope deployed a cheap proxy model that immitate the behavior of both the object detector and the query processor, combined.
+        - (Click) NoScope deployed a cheap proxy model that immitate the behavior of both the object detector and the
+        query processor, combined.
         - eliminating the costly step to produce object localization and skip to query answering directly.
     </aside>
 </section>
 <section>
     <h3>Prior Work: Proxy-based approach.</h3>
     <br />
-    <h4>Basic Video Aggregate Query</h4>
+    <h4 class="underline">Basic Video Aggregate Query</h4>
     <div class="flex justify-between items-center">
         <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
         <i class="fa-solid fa-arrow-right"></i>
@@ -481,7 +481,7 @@
         <div class="snode p-5"><strong>Query answer:</strong><br />1.2 Cars</div>
     </div>
     <br />
-    <h4 class="fragment" data-fragment-index="1">BlazeIt (Kang, 2019)</h4>
+    <h4 class="fragment underline" data-fragment-index="1">BlazeIt (Kang, 2019)</h4>
     <div class="flex justify-between items-center fragment" data-fragment-index="1">
         <img src="assets/data-ex-jackson-small.gif" class="w-100px" />
         <i class="fa-solid fa-arrow-right"></i>
@@ -499,16 +499,40 @@
             </div>
         </div>
         <i class="fa-solid fa-arrow-right"></i>
-        <div class="snode p-5"><strong>Query answer:</strong><br />1.5 Cars</div>
+        <div class="snode p-5"><strong>Query answer:</strong><br />1.25 Cars</div>
     </div>
     <aside class="notes" data-markdown>
         - Similarly for video aggregate query where the pipeline compute a statistic summary of video frames.
         - In this case the query is to find the average number of cars at a given time in the video.
-        - (Click) BlazeIt also deployed a cheap proxy model that directly calculate the average number of cars in the video.
+        - (Click) BlazeIt also deployed a cheap proxy model that directly calculate the average number of cars in the
+        video.
     </aside>
 </section>
 <section>
-    <h3>Prior Work: Proxy ML Models.</h3>
+    <h3>How does a proxy model work?</h3>
+    <br />
+    <br />
+    <div class="r-stack">
+    <img src="assets/proxy-pipeline-1.svg"  class="w-100%" />
+    <img src="assets/proxy-pipeline-2.svg"  class="w-100% fragment" />
+    <img src="assets/proxy-pipeline-3.svg"  class="w-100% fragment" />
+    <img src="assets/proxy-pipeline-4.svg"  class="w-100% fragment" />
+    <img src="assets/proxy-pipeline-5.svg"  class="w-100% fragment" />
+    </div>
+
+    <aside class="notes" data-markdown>
+        - A proxy model is a cheap model that immitate the behavior of its teacher model for a specific task.
+        - I will explain how proxy models work through an example.
+        - Starting from a simple video retrieval query pipeline.
+        - (Click) We know that the object detector is expensive.
+        - (Click) And, computing locations of all the objects is excessive.
+        - (Click) To answer the query with a proxy model, we train the proxy model using the object detector as a teacher model
+        - And, use the query as a training condition.
+        - We sample a subset of video frame for the object detector and use the output as a training data.
+        - Since we only execute the object detector on a subset of video frames, this process is not too expensive.
+        - (Click) Once trained, we can input all video frames into the cheap proxy model to get the query answer.
+        - Note that the proxy model is not perfect and answer the query with a certain level of accuracy.
+    </aside>
 </section>
 
 <body>
@@ -516,7 +540,6 @@
     <script src="plugin/notes/notes.js"></script>
     <script src="plugin/markdown/markdown.js"></script>
     <script src="plugin/highlight/highlight.js"></script>
-
     <script>
         (function () {
             const SCALE = 85;
@@ -525,19 +548,15 @@
 
             $('columns').each((_, columns) => {
                 const nColumns = $(columns).children().length
-                const nSpaces = nColumns - 1
-                const width = (100 - (nSpaces * 2)) / nColumns
-                const style = `width: ${width}%;`
-                $(columns)
-                    .children()
-                    .filter('column')
+                const width = (100 - ((nColumns - 2) * 2)) / nColumns
+                const style = `width: ${width}%; margin: 0; padding: 0;`
+                $(columns).children().filter('column')
                     .each((_, column) => column.setAttribute('style', style))
             })
             Reveal.initialize({
                 width: 16 * SCALE,
                 height: 9 * SCALE,
                 markdown: { gfm: true },
-
                 plugins: [
                     RevealMarkdown,
                     RevealHighlight,
