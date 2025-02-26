@@ -635,17 +635,82 @@
     <div class="flex justify-between items-center w-100% fragment">
         <img src="assets/with-car.png" class="w-200px" />
         <h3><i class="fa-solid fa-arrow-right"></i></h3>
-        <div class="snode p-5" style="background-color: yellow;">Proxy Model</div>
+        <div class="snode p-5 bg-yellow">Proxy Model</div>
         <h3><i class="fa-solid fa-arrow-right"></i></h3>
-        <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-green">Car detected</span></div>
+        <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-green">Car detected</span>
+        </div>
     </div>
     <br />
     <div class="flex justify-between items-center w-100% fragment">
         <img src="assets/without-car.png" class="w-200px" />
         <h3><i class="fa-solid fa-arrow-right"></i></h3>
-        <div class="snode p-5" style="background-color: yellow;">Proxy Model</div>
+        <div class="snode p-5 bg-yellow">Proxy Model</div>
         <h3><i class="fa-solid fa-arrow-right"></i></h3>
-        <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-red">No car detected</span></div>
+        <div class="snode p-5 w-28%"><strong>Query answer:</strong><br /><span class="color-red">No car detected</span>
+        </div>
+    </div>
+</section>
+<section data-auto-animate>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4>Intuition #1: Not all regions in a video frame are relevant to the object of interest.</h4>
+    <br />
+    <div class="flex justify-center items-center w-100%">
+        <div class="m-2">
+            CNN (stride=2, kernel=2x2x64)
+            <div class="flex justify-center items-center snode bg-black">
+                <!-- <div class="flex items-center snode m-1 h-421px" style="background-color: white;">
+                    128 x 128
+                </div> -->
+                <div class="flex items-center snode m-1 bg-white h-301px">
+                    64 x 64
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-215px">
+                    32 x 32
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-153px">
+                    16 x 16
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-109px">
+                    8 x 8
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-78px">
+                    4 x 4
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-56px">
+                    2 x 2
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-40px">
+                    1 x 1
+                </div>
+            </div>
+        </div>
+        <div class="m-2">
+            Linear
+            <div class="flex justify-center items-center snode bg-black">
+                <div class="flex items-center snode m-1 bg-white h-301px">
+                    64
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-301px">
+                    64
+                </div>
+                <div class="flex items-center snode m-1 bg-white h-40px">
+                    1
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <h3>Compress relevant regions from multiple frames</h3>
+    <h4>Intuition #1: Not all regions in a video frame are relevant to the object of interest.</h4>
+    <br />
+    <br />
+    <div class="flex justify-between items-center w-100%">
+        <img src="assets/frame.png" class="w-20%" />
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <div class="snode p-5 bg-yellow">Proxy Model</div>
+        <h3><i class="fa-solid fa-arrow-right"></i></h3>
+        <img src="assets/frame-proxy.png" class="w-40%" />
     </div>
 </section>
 
